@@ -12,23 +12,6 @@
 
 </div>
 
----
-
-## 📖 Table of Contents
-
-- [Overview](#overview)
-- [Complete Feature List](#complete-feature-list)
-- [Technology Stack](#technology-stack)
-- [AI Models & Components](#ai-models--components)
-- [System Architecture](#system-architecture)
-- [Complete Workflow](#complete-workflow)
-- [Installation Guide](#installation-guide)
-- [User Portals](#user-portals)
-- [Telegram Bot Features](#telegram-bot-features)
-- [AI Features Deep Dive](#ai-features-deep-dive)
-- [Future Scope](#future-scope)
-
----
 
 ## 🎯 Overview
 
@@ -57,6 +40,49 @@ ArogyaMaa provides:
 - ✅ **Multi-language support** (planned)
 
 ---
+## Screenshots
+<img width="1919" height="1012" alt="image" src="https://github.com/user-attachments/assets/261abb8f-c9b6-436d-be35-d69a1f489f3b" />
+<img width="1919" height="925" alt="image" src="https://github.com/user-attachments/assets/12a00a46-9db5-4d64-86f3-dd7dd2881043" />
+<img width="1919" height="763" alt="image" src="https://github.com/user-attachments/assets/286dfd04-2660-4414-bf56-02d7e679f822" />
+<img width="1919" height="1022" alt="image" src="https://github.com/user-attachments/assets/b4ed321d-6724-4fc3-9bea-cb0dd364e94c" />
+<img width="1913" height="1022" alt="image" src="https://github.com/user-attachments/assets/7a4d81ee-8c6e-400f-99e0-191ef648f56c" />
+<img width="1919" height="1027" alt="image" src="https://github.com/user-attachments/assets/efba4fd4-30de-46a7-ad95-536921181a5a" />
+<img width="1900" height="1032" alt="image" src="https://github.com/user-attachments/assets/98c7f7be-0853-4fb5-aebc-4856a875ec35" />
+<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/3589d0b9-d172-4546-84d8-476ac6e46581" />
+<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/33a95e67-734c-4e61-b7cd-a8b5a73fac8f" />
+<img width="1919" height="1014" alt="image" src="https://github.com/user-attachments/assets/ddd3c738-8e0d-4c66-b6a0-ece78949088c" />
+<img width="1919" height="1010" alt="image" src="https://github.com/user-attachments/assets/bddd4133-06bc-4c82-ae86-df15aee3a834" />
+<img width="1919" height="1033" alt="image" src="https://github.com/user-attachments/assets/929aab24-852f-4b78-9523-dbfc30683508" />
+<img width="1919" height="1021" alt="image" src="https://github.com/user-attachments/assets/210e913d-101b-434e-b175-5b57fed8b761" />
+<img width="1919" height="1011" alt="image" src="https://github.com/user-attachments/assets/f637b93f-14c6-43b1-a19a-281c0350c5ba" />
+<img width="1919" height="1031" alt="image" src="https://github.com/user-attachments/assets/d9fd54cb-7ae3-41f3-97db-6a87dcff68bb" />
+<img width="1919" height="1016" alt="image" src="https://github.com/user-attachments/assets/313605d3-0e20-4a63-93f3-ad4587f76685" />
+<img width="1919" height="1019" alt="image" src="https://github.com/user-attachments/assets/97c3ffd7-01ed-4226-921f-756f838f64a0" />
+<img width="1919" height="1031" alt="image" src="https://github.com/user-attachments/assets/046ea9da-14a6-435b-be3b-368fe6edcd41" />
+<img width="1919" height="1008" alt="image" src="https://github.com/user-attachments/assets/20c4b3fb-b44f-4189-b610-67fd683cd068" />
+<img width="1919" height="1015" alt="image" src="https://github.com/user-attachments/assets/7896124a-2629-4546-a36f-454b4ba9caf8" />
+<img width="1919" height="1016" alt="image" src="https://github.com/user-attachments/assets/ddda6be7-1bfd-4768-8e3b-aa396ab2dd4b" />
+<img width="1919" height="1000" alt="image" src="https://github.com/user-attachments/assets/a68b0db9-9307-45e7-aec7-b3169c2630e6" />
+<img width="1919" height="1009" alt="image" src="https://github.com/user-attachments/assets/80cecf9c-2bae-4373-9865-1537a1571415" />
+<img width="1919" height="1013" alt="image" src="https://github.com/user-attachments/assets/33d648c2-1525-468b-b06f-8cb9de2a72ac" />
+<img width="1236" height="1103" alt="image" src="https://github.com/user-attachments/assets/a6f9330f-280c-490a-9ed9-51381cc7ee2e" />
+<img width="1230" height="1104" alt="image" src="https://github.com/user-attachments/assets/4239ef74-c89c-4154-8680-c96ae0f8ff90" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 🌟 Complete Feature List
 
