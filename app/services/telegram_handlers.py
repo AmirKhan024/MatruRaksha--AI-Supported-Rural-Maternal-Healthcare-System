@@ -5,12 +5,82 @@ Handles all Telegram bot commands and message processing.
 Mothers interact through inline keyboard menus.
 """
 
+import os
+import asyncio
 from flask import current_app
-from app.repositories import mothers_repo, messages_repo, assessments_repo, consultations_repo
+from app.repositories import mothers_repo, messages_repo, assessments_repo, consultations_repo, registration_repo
 from app.services import telegram_service
 from app.ai.nutrition_advisor import is_nutrition_query, generate_nutrition_recommendation
 from bson import ObjectId
 from datetime import datetime
+
+
+# ==================== AI REGISTRATION SETUP ====================
+
+_reg_engine = None
+_voice_processor = None
+
+
+def _get_registration_engine():
+    """Lazy-initialize the AI registration engine."""
+    global _reg_engine
+    if _reg_engine is None:
+        groq_key = current_app.config.get('GROQ_API_KEY')
+        if groq_key:
+            from app.ai.registration.assistant import AIAssistant
+            from app.ai.registration.engine import RegistrationEngine
+            assistant = AIAssistant(groq_api_key=groq_key)
+            _reg_engine = RegistrationEngine(assistant)
+    return _reg_engine
+
+
+def _get_voice_processor():
+    """Lazy-initialize the voice processor."""
+    global _voice_processor
+    if _voice_processor is None:
+        groq_key = current_app.config.get('GROQ_API_KEY')
+        if groq_key:
+            from app.ai.registration.voice_processor import VoiceProcessor
+            _voice_processor = VoiceProcessor(groq_api_key=groq_key)
+    return _voice_processor
+
+
+def _get_keyboard_json(ui_details):
+    """Convert registration UI details to Telegram API keyboard JSON."""
+    ui_type = ui_details.get('type', 'text')
+    options = ui_details.get('options', [])
+
+    if ui_type in ['binary', 'choice'] and options:
+        keyboard = [[opt] for opt in options]
+        return {"keyboard": keyboard, "resize_keyboard": True, "one_time_keyboard": True}
+    elif ui_type == 'contact':
+        return {
+            "keyboard": [[{"text": "📱 Share Phone Number / अपना फोन नंबर साझा करें", "request_contact": True}]],
+            "resize_keyboard": True,
+            "one_time_keyboard": True
+        }
+    return {"remove_keyboard": True}
+
+
+def _run_tts_and_send(chat_id, text, session):
+    """Generate TTS voice and send it (runs async TTS in sync Flask context)."""
+    try:
+        vp = _get_voice_processor()
+        if not vp:
+            return
+
+        user_lang = session.get('preferred_language', 'Hindi')
+
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        voice_path = loop.run_until_complete(vp.text_to_audio(text, lang=user_lang))
+        loop.close()
+
+        if voice_path and os.path.exists(voice_path):
+            telegram_service.send_voice(chat_id, voice_path)
+            os.remove(voice_path)
+    except Exception as e:
+        current_app.logger.error(f"TTS failed for chat {chat_id}: {e}")
 
 
 def handle_start_command(chat_id, user_info):
@@ -39,7 +109,7 @@ def handle_start_command(chat_id, user_info):
         # Log interaction
         messages_repo.add_message(existing_mother['_id'], {
             'sender_type': 'system',
-            'sender_name': 'MatruRaksha System',
+            'sender_name': 'ArogyaMaa System',
             'text': 'Mother opened main menu (/start)'
         })
         
@@ -75,9 +145,9 @@ def handle_start_command(chat_id, user_info):
         
         # Send welcome + menu
         welcome_msg = f"""
-🌸 <b>Welcome to MatruRaksha, {full_name}!</b>
+🌸 <b>Welcome to ArogyaMaa, {full_name}!</b>
 
-MatruRaksha is your maternal health companion throughout your pregnancy journey.
+ArogyaMaa is your maternal health companion throughout your pregnancy journey.
 
 Please choose an option from the menu below:
 """
@@ -87,7 +157,7 @@ Please choose an option from the menu below:
         # Log registration
         messages_repo.add_message(mother_id, {
             'sender_type': 'system',
-            'sender_name': 'MatruRaksha System',
+            'sender_name': 'ArogyaMaa System',
             'text': f'New mother registered: {full_name}'
         })
         
@@ -103,21 +173,22 @@ Please choose an option from the menu below:
 def _send_main_menu(chat_id, name):
     """Send main menu with inline keyboard buttons."""
     message = f"""
-<b>MatruRaksha Main Menu</b>
+<b>ArogyaMaa Main Menu</b>
 
 What would you like to do, {name}?
 
 💬 <b>Tip:</b> You can also just type a message to send it directly to your doctor and ASHA worker!
 """
     
-    # Inline keyboard with 5 options
+    # Inline keyboard with 6 options
     reply_markup = {
         'inline_keyboard': [
             [{'text': '🩺 Health Summary', 'callback_data': 'menu_health_summary'}],
             [{'text': '📄 Upload Documents', 'callback_data': 'menu_upload_docs'}],
             [{'text': '🚨 Alerts', 'callback_data': 'menu_alerts'}],
             [{'text': '👩‍⚕️ Doctor Messages', 'callback_data': 'menu_doctor_messages'}],
-            [{'text': '💬 Send Message', 'callback_data': 'menu_send_message'}]
+            [{'text': '💬 Send Message', 'callback_data': 'menu_send_message'}],
+            [{'text': '📝 Register', 'callback_data': 'menu_register'}]
         ]
     }
     
@@ -160,6 +231,8 @@ def handle_callback_query(callback_query):
         return handle_doctor_messages(chat_id)
     elif callback_data == 'menu_send_message':
         return handle_send_message_menu(chat_id)
+    elif callback_data == 'menu_register':
+        return handle_registration_start(chat_id)
     else:
         telegram_service.send_message(chat_id, "Unknown option. Use /start to see the menu.")
         return {'status': 'unknown_callback'}
@@ -215,10 +288,16 @@ Use /start to return to the main menu.
     vitals = assessment.get('vitals', {})
     bp_systolic = vitals.get('bp_systolic', 'N/A')
     bp_diastolic = vitals.get('bp_diastolic', 'N/A')
-    # Handle both 'weight' and 'weight_kg' field names
-    weight = vitals.get('weight') or vitals.get('weight_kg') or 'N/A'
+    # Handle both 'weight' and 'weight_kg' field names, fallback to mother profile
+    weight = vitals.get('weight') or vitals.get('weight_kg')
+    if not weight:
+        weight = mother.get('medical_history', {}).get('weight', 'N/A')
+        
     # Handle both 'hemoglobin' and 'hemoglobin_g_dl' field names
     hemoglobin = vitals.get('hemoglobin') or vitals.get('hemoglobin_g_dl') or 'N/A'
+    
+    # Handle pulse/heart rate
+    pulse = vitals.get('pulse') or vitals.get('heart_rate') or 'N/A'
     
     message = f"""
 📋 <b>Your Health Summary</b>
@@ -229,6 +308,7 @@ Use /start to return to the main menu.
 • Blood Pressure: {bp_systolic}/{bp_diastolic} mmHg
 • Weight: {weight} kg
 • Hemoglobin: {hemoglobin} g/dL
+• Pulse/Heart Rate: {pulse} bpm
 
 <b>AI Health Summary:</b>
 """
@@ -267,7 +347,7 @@ Use /start to return to the main menu.
     # Log interaction
     messages_repo.add_message(mother_id, {
         'sender_type': 'system',
-        'sender_name': 'MatruRaksha System',
+        'sender_name': 'ArogyaMaa System',
         'text': 'Mother viewed health summary'
     })
     
@@ -311,7 +391,7 @@ Use /start to return to the main menu.
     # Log interaction
     messages_repo.add_message(mother['_id'], {
         'sender_type': 'system',
-        'sender_name': 'MatruRaksha System',
+        'sender_name': 'ArogyaMaa System',
         'text': 'Mother viewed upload documents menu'
     })
     
@@ -382,7 +462,7 @@ Use /start to return to the main menu.
     # Log interaction
     messages_repo.add_message(mother_id, {
         'sender_type': 'system',
-        'sender_name': 'MatruRaksha System',
+        'sender_name': 'ArogyaMaa System',
         'text': 'Mother viewed alerts'
     })
     
@@ -448,7 +528,7 @@ Use /start to return to the main menu.
     # Log interaction
     messages_repo.add_message(mother_id, {
         'sender_type': 'system',
-        'sender_name': 'MatruRaksha System',
+        'sender_name': 'ArogyaMaa System',
         'text': 'Mother viewed doctor messages'
     })
     
@@ -574,7 +654,7 @@ def handle_document_upload(chat_id, document_or_photo):
             try:
                 messages_repo.add_message(mother_id, {
                     'sender_type': 'system',
-                    'sender_name': 'MatruRaksha System',
+                    'sender_name': 'ArogyaMaa System',
                     'text': f'{mother_name} uploaded a new document via Telegram',
                     'from_mother': True,
                     'to_asha': True,
@@ -730,21 +810,30 @@ def handle_help_command(chat_id):
 def handle_text_message(chat_id, text):
     """
     Handle regular text messages (not commands).
-    
+
     Features:
+    - AI registration flow (if active)
     - AI-powered nutrition recommendations (if asking about food/diet)
     - Message logging for healthcare team
     - Simple acknowledgment for other queries
-    
+
     Args:
         chat_id: Telegram chat ID
         text: Message text
-    
+
     Returns:
         dict: Response status
     """
+    # Check if user is in active AI registration flow
+    try:
+        session = registration_repo.get_session(str(chat_id))
+        if session and session.get('registration_active'):
+            return handle_registration_message(chat_id, text)
+    except Exception as e:
+        current_app.logger.error(f"Registration session check error: {e}")
+
     mother = mothers_repo.get_by_telegram_chat_id(chat_id)
-    
+
     if not mother:
         telegram_service.send_message(chat_id, "Please use /start first to register.")
         return {'status': 'not_registered'}
@@ -862,7 +951,7 @@ def handle_help_command(chat_id):
         return {'status': 'not_registered'}
     
     message = """
-🌸 <b>MatruRaksha - Available Commands</b>
+🌸 <b>ArogyaMaa - Available Commands</b>
 
 <b>Basic Commands:</b>
 /start - Start or restart the bot
@@ -889,7 +978,7 @@ Your health and your baby's health are our priority! 💚
     # Log interaction
     messages_repo.add_message(mother['_id'], {
         'sender_type': 'system',
-        'sender_name': 'MatruRaksha System',
+        'sender_name': 'ArogyaMaa System',
         'text': 'Mother viewed help (/help command)'
     })
     
@@ -955,7 +1044,7 @@ Use /help to see what else you can do.
     # Log interaction
     messages_repo.add_message(mother['_id'], {
         'sender_type': 'system',
-        'sender_name': 'MatruRaksha System',
+        'sender_name': 'ArogyaMaa System',
         'text': 'Mother viewed status (/status command)'
     })
     
@@ -1016,7 +1105,7 @@ To update your profile, please contact your ASHA worker or send us a message.
     # Log interaction
     messages_repo.add_message(mother['_id'], {
         'sender_type': 'system',
-        'sender_name': 'MatruRaksha System',
+        'sender_name': 'ArogyaMaa System',
         'text': 'Mother viewed profile (/profile command)'
     })
     
@@ -1044,5 +1133,205 @@ Use /help to see all available commands.
     return {'status': 'unknown_command'}
 
 
-# NOTE: handle_text_message() is defined earlier in this file (line 730) with AI nutrition logic.
-# The duplicate function that was here has been removed to avoid conflicts.
+# ==================== AI REGISTRATION HANDLERS (Webhook Mode) ====================
+
+
+def handle_registration_start(chat_id):
+    """
+    Handle 📝 Register button press.
+
+    Starts the AI-driven 25-question registration flow.
+    If already fully registered, informs the user.
+    """
+    # Check if already completed full registration
+    mother = mothers_repo.get_by_telegram_chat_id(chat_id)
+    if mother and mother.get('registration_complete'):
+        telegram_service.send_message(
+            chat_id,
+            "✅ You are already registered! Use /start to access all features."
+        )
+        return {'status': 'already_registered'}
+
+    reg_engine = _get_registration_engine()
+    if not reg_engine:
+        telegram_service.send_message(
+            chat_id,
+            "⚠️ Registration service is temporarily unavailable. Please try again later."
+        )
+        return {'status': 'registration_unavailable'}
+
+    # Get or create registration session
+    session = registration_repo.get_session(str(chat_id))
+    if not session:
+        # Pre-populate with the name from the mother profile
+        full_name = mother['name'] if mother else 'Mother'
+        session = {
+            'telegram_chat_id': str(chat_id),
+            'full_name': full_name,
+            'registration_active': True,
+        }
+        registration_repo.update_session_data(str(chat_id), session)
+
+    # Mark session as active
+    if not session.get('registration_active'):
+        registration_repo.update_session_data(str(chat_id), {'registration_active': True})
+        session['registration_active'] = True
+
+    # Get the first (or next) question
+    _, next_q_text, is_comp, ui_details = reg_engine.provide_next_question(session)
+
+    if is_comp:
+        # Already answered all questions (edge case: resumed completed session)
+        registration_repo.finalize_registration(str(chat_id))
+        telegram_service.send_message(chat_id, next_q_text)
+        return {'status': 'registration_already_complete'}
+
+    # Send the question with appropriate keyboard
+    keyboard = _get_keyboard_json(ui_details)
+    telegram_service.send_message_with_keyboard(chat_id, next_q_text, keyboard)
+
+    # Send voice response
+    _run_tts_and_send(chat_id, next_q_text, session)
+
+    return {'status': 'registration_started'}
+
+
+def handle_registration_message(chat_id, text):
+    """
+    Process a text message during active AI registration.
+
+    Args:
+        chat_id: Telegram chat ID
+        text: User's text response
+
+    Returns:
+        dict: Response status
+    """
+    reg_engine = _get_registration_engine()
+    if not reg_engine:
+        telegram_service.send_message(chat_id, "⚠️ Registration service unavailable.")
+        return {'status': 'registration_unavailable'}
+
+    session = registration_repo.get_session(str(chat_id))
+    if not session:
+        telegram_service.send_message(chat_id, "Please press the 📝 Register button to start.")
+        return {'status': 'no_session'}
+
+    # Run the registration engine
+    extracted, next_q_text, is_comp, ui_details = reg_engine.provide_next_question(session, text)
+
+    # Update session with extracted data
+    if extracted:
+        registration_repo.update_session_data(str(chat_id), extracted)
+
+    # Refresh session for voice language
+    new_session = registration_repo.get_session(str(chat_id))
+
+    if is_comp:
+        # Registration complete - finalize
+        registration_repo.finalize_registration(str(chat_id))
+
+        user_lang = new_session.get('preferred_language', 'Hindi')
+        if 'English' in str(user_lang):
+            final_msg = "✅ Registration Complete! Your health profile is now active. We will monitor your symptoms and notify your ASHA worker if needed."
+        else:
+            final_msg = "✅ पंजीकरण पूरा हुआ! आपका स्वास्थ्य प्रोफाइल अब सक्रिय है। हम आपके लक्षणों पर नजर रखेंगे और जरूरत पड़ने पर आपकी आशा वर्कर को सूचित करेंगे।"
+
+        # Send with remove_keyboard to clear any reply keyboard
+        telegram_service.send_message_with_keyboard(
+            chat_id, final_msg, {"remove_keyboard": True}
+        )
+        _run_tts_and_send(chat_id, final_msg, new_session)
+
+        current_app.logger.info(f"AI Registration completed for chat_id: {chat_id}")
+        return {'status': 'registration_complete'}
+    else:
+        # Send next question
+        keyboard = _get_keyboard_json(ui_details)
+        telegram_service.send_message_with_keyboard(chat_id, next_q_text, keyboard)
+        _run_tts_and_send(chat_id, next_q_text, new_session)
+
+        return {'status': 'registration_in_progress'}
+
+
+def handle_registration_voice(chat_id, voice_data):
+    """
+    Handle a voice message during active AI registration.
+
+    Downloads the voice file, transcribes via Groq Whisper STT,
+    then passes the transcribed text to handle_registration_message.
+
+    Args:
+        chat_id: Telegram chat ID
+        voice_data: Telegram voice object from webhook
+
+    Returns:
+        dict: Response status
+    """
+    vp = _get_voice_processor()
+    if not vp:
+        telegram_service.send_message(chat_id, "⚠️ Voice processing unavailable.")
+        return {'status': 'voice_unavailable'}
+
+    try:
+        file_id = voice_data.get('file_id')
+        if not file_id:
+            telegram_service.send_message(chat_id, "❌ Could not process voice message.")
+            return {'status': 'no_file_id'}
+
+        # Download the voice file
+        file_path = telegram_service.get_file_path(file_id)
+        if not file_path:
+            telegram_service.send_message(chat_id, "❌ Could not download voice message.")
+            return {'status': 'download_failed'}
+
+        # Save locally
+        tmp_dir = os.path.join(current_app.root_path, '..', 'tmp')
+        os.makedirs(tmp_dir, exist_ok=True)
+        ogg_path = os.path.join(tmp_dir, f"voice_{file_id}.ogg")
+
+        if not telegram_service.download_file(file_path, ogg_path):
+            telegram_service.send_message(chat_id, "❌ Could not save voice message.")
+            return {'status': 'save_failed'}
+
+        # Transcribe using Groq Whisper
+        transcribed_text = vp.audio_to_text(ogg_path)
+
+        # Clean up the temporary file
+        if os.path.exists(ogg_path):
+            os.remove(ogg_path)
+
+        if not transcribed_text or transcribed_text.startswith("Could not"):
+            telegram_service.send_message(chat_id, "❌ Could not understand the voice message. Please try again or type your response.")
+            return {'status': 'transcription_failed'}
+
+        current_app.logger.info(f"Voice transcribed for {chat_id}: {transcribed_text[:50]}...")
+
+        # Process as text
+        return handle_registration_message(chat_id, transcribed_text)
+
+    except Exception as e:
+        current_app.logger.error(f"Voice registration error for {chat_id}: {e}")
+        telegram_service.send_message(chat_id, "❌ Error processing voice. Please type your response instead.")
+        return {'status': 'voice_error'}
+
+
+def handle_registration_contact(chat_id, contact_data):
+    """
+    Handle a contact share during active AI registration.
+
+    Extracts the phone number and passes it to the registration flow.
+
+    Args:
+        chat_id: Telegram chat ID
+        contact_data: Telegram contact object from webhook
+
+    Returns:
+        dict: Response status
+    """
+    phone = contact_data.get('phone_number', '')
+    if phone:
+        return handle_registration_message(chat_id, phone)
+    else:
+        telegram_service.send_message(chat_id, "❌ Could not read phone number. Please type it manually.")
+        return {'status': 'no_phone'}

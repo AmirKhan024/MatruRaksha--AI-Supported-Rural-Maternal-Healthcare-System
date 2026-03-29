@@ -12,22 +12,23 @@
 <div class="table-card">
     <h3 class="table-title">Assigned Mothers</h3>
     <div class="table-responsive">
-        <table class="data-table" id="mothers-table">
+        <table class="data-table compact" id="mothers-table">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Patient Name</th>
                     <th>Age</th>
                     <th>Phone</th>
                     <th>Gestational Age</th>
                     <th>Current Risk</th>
                     <th>Last Assessment</th>
-                    <th>Pending Reviews</th>
-                    <th>Action</th>
+                    <th class="text-center">Pending Reviews</th>
+                    <th>ASHA Worker</th>
+                    <th style="width: 140px;">Clinical Actions</th>
                 </tr>
             </thead>
             <tbody id="mothers-table-body">
                 <tr>
-                    <td colspan="8" class="text-center">Loading...</td>
+                    <td colspan="9" class="text-center">Loading patient clinical records...</td>
                 </tr>
             </tbody>
         </table>
@@ -41,7 +42,7 @@ let mothersData = [];
 
 // Check if Doctor ID is set
 if (!DOCTOR_ID || DOCTOR_ID === '') {
-    showAlert('Please provide Doctor ID in URL: ?doctor_id=<your_id>', 'warning');
+    showAlert('Please provide Doctor ID in URL', 'warning');
 }
 
 // Load mothers data
@@ -52,9 +53,7 @@ async function loadMothersData() {
         const response = await fetch(`/doctor/mothers?doctor_id=${DOCTOR_ID}`);
         const data = await response.json();
         
-        if (!response.ok) {
-            throw new Error(data.error || 'Failed to load mothers');
-        }
+        if (!response.ok) throw new Error(data.error || 'Failed to load mothers');
         
         mothersData = data.mothers || [];
         renderMothersTable();
@@ -62,7 +61,7 @@ async function loadMothersData() {
         
     } catch (error) {
         console.error('Failed to load mothers data:', error);
-        showAlert('Failed to load mothers data: ' + error.message, 'error');
+        showAlert('Failed to load mothers data', 'error');
     }
 }
 
@@ -71,23 +70,12 @@ function renderMothersTable() {
     const tbody = document.getElementById('mothers-table-body');
     
     if (mothersData.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="8" style="text-align: center; padding: 3rem;">
-                    <div style="color: #6c757d;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">👥</div>
-                        <h4 style="margin: 0 0 0.5rem 0;">No Patients Assigned</h4>
-                        <p style="margin: 0;">You don't have any patients assigned yet.</p>
-                        <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Contact the admin to assign mothers to your care.</p>
-                    </div>
-                </td>
-            </tr>
-        `;
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center">No patients assigned to your care</td></tr>';
         return;
     }
     
     tbody.innerHTML = mothersData.map(mother => {
-        const riskLevel = mother.current_risk_level || 'N/A';
+        const riskLevel = mother.current_risk_level || (mother.latest_assessment && mother.latest_assessment.risk_category) || 'N/A';
         const riskClass = getRiskClass(riskLevel);
         const riskBadge = `<span class="badge badge-${riskClass}">${riskLevel}</span>`;
         
@@ -104,20 +92,36 @@ function renderMothersTable() {
             ? `<span class="badge badge-warning">${pendingCount}</span>`
             : `<span class="badge badge-success">0</span>`;
         
+        const ashaWorker = mother.asha_name || 'Not Assigned';
+        
         return `
             <tr>
-                <td><strong>${mother.name}</strong></td>
+                <td>
+                    <div class="patient-name-cell">
+                        <strong>${mother.name}</strong>
+                        <a href="{{ url_for('doctor_dashboard.patient_profile', mother_id='') }}${mother.mother_id}" class="view-profile-link">
+                            <i class="fa-solid fa-id-card-clip"></i> Clinical Portfolio
+                        </a>
+                    </div>
+                </td>
                 <td>${mother.age || 'N/A'}</td>
                 <td>${mother.phone || 'N/A'}</td>
                 <td>${gestationalAge}</td>
                 <td>${riskBadge}</td>
                 <td>${lastAssessment}</td>
                 <td class="text-center">${pendingBadge}</td>
+                <td><strong>${ashaWorker}</strong></td>
                 <td>
-                    <a href="{{ url_for('doctor_dashboard.assessments', doctor_id=doctor_id) }}&mother_id=${mother.mother_id}" 
-                       class="btn btn-sm btn-primary">Assessments</a>
-                    <a href="{{ url_for('doctor_dashboard.view_documents', doctor_id=doctor_id) }}&mother_id=${mother.mother_id}" 
-                       class="btn btn-sm btn-info" style="margin-left: 5px;">📄 Documents</a>
+                    <div class="action-stack">
+                        <a href="{{ url_for('doctor_dashboard.assessments', doctor_id=doctor_id) }}&mother_id=${mother.mother_id}" 
+                           class="btn btn-sakura btn-sm">
+                           <i class="fa-solid fa-clipboard-list"></i> Assessments
+                        </a>
+                        <a href="{{ url_for('doctor_dashboard.view_documents', doctor_id=doctor_id) }}&mother_id=${mother.mother_id}" 
+                           class="btn btn-sakura btn-sm">
+                           <i class="fa-solid fa-file-medical"></i> Documents
+                        </a>
+                    </div>
                 </td>
             </tr>
         `;

@@ -23,6 +23,17 @@ from app.services import telegram_service
 doctor_bp = Blueprint('doctor', __name__)
 
 
+def _safe_iso(value):
+    """Return ISO-format string for datetime or plain string dates; None if absent."""
+    if value is None:
+        return None
+    if isinstance(value, str):
+        return value
+    if hasattr(value, 'isoformat'):
+        return value.isoformat()
+    return str(value)
+
+
 @doctor_bp.route('/health', methods=['GET'])
 def health():
     """Health check endpoint for Doctor service"""
@@ -67,50 +78,71 @@ def get_mothers():
         for mother in mothers:
             # Get latest assessment
             latest_assessment = assessments_repo.get_latest_for_mother(mother['_id'])
-            
-            pregnancy = mother.get('current_pregnancy', {})
-            
+
+            pregnancy = mother.get('current_pregnancy') or {}
+
+            # Resolve ASHA worker name for this mother
+            asha_name = 'Not Assigned'
+            asha_id_raw = mother.get('assigned_asha_id')
+            if asha_id_raw:
+                try:
+                    from app.repositories import asha_repo
+                    asha_worker = asha_repo.get_by_id(str(asha_id_raw))
+                    if asha_worker:
+                        asha_name = asha_worker.get('name', 'Unknown ASHA')
+                except Exception:
+                    pass
+
+            # EDD — safely handle str or datetime
+            edd_val = pregnancy.get('edd') or pregnancy.get('edd_date')
+
             mother_data = {
                 "mother_id": str(mother['_id']),
                 "name": mother.get('name', 'Unknown'),
                 "age": mother.get('age'),
                 "phone": mother.get('phone'),
-                "gestational_age_weeks": pregnancy.get('gestational_age_weeks'),
-                "edd": pregnancy.get('edd').isoformat() if pregnancy.get('edd') else None,
+                "gestational_age_weeks": pregnancy.get('gestational_age_weeks') or mother.get('gestational_age'),
+                "edd": _safe_iso(edd_val),
                 "address": mother.get('address', {}),
+                "asha_name": asha_name,
+                "current_risk_level": 'N/A',
+                "last_assessment_date": None,
+                "pending_review_count": 0,
                 "latest_assessment": None
             }
-            
+
             # Add latest assessment info if exists
             if latest_assessment:
-                ai_eval = latest_assessment.get('ai_evaluation', {})
-                
-                # Get doctor's risk assessment if reviewed, otherwise use AI risk
+                ai_eval = latest_assessment.get('ai_evaluation') or {}
+
+                # Use doctor's risk if reviewed, otherwise AI risk
                 current_risk = ai_eval.get('risk_category', 'NOT_EVALUATED')
                 if latest_assessment.get('reviewed_by_doctor'):
-                    # Fetch consultation to get doctor's risk assessment
                     consultation_id = latest_assessment.get('consultation_id')
                     if consultation_id:
                         consultation = consultations_repo.get_by_id(consultation_id)
                         if consultation and consultation.get('doctor_risk_assessment'):
                             current_risk = consultation.get('doctor_risk_assessment')
-                
-                # Count pending reviews (unreviewed assessments for this mother)
+
+                # Count pending reviews
                 all_assessments = assessments_repo.list_by_mother(mother['_id'])
                 pending_reviews = sum(1 for a in all_assessments if not a.get('reviewed_by_doctor'))
-                
+
+                mother_data['current_risk_level'] = current_risk
+                mother_data['last_assessment_date'] = _safe_iso(latest_assessment.get('timestamp'))
+                mother_data['pending_review_count'] = pending_reviews
                 mother_data['latest_assessment'] = {
                     "assessment_id": str(latest_assessment['_id']),
-                    "date": latest_assessment.get('timestamp').isoformat() if latest_assessment.get('timestamp') else None,
-                    "risk_category": current_risk,  # Doctor's assessment if reviewed, otherwise AI
+                    "date": _safe_iso(latest_assessment.get('timestamp')),
+                    "risk_category": current_risk,
                     "risk_score": ai_eval.get('risk_score'),
                     "reviewed": latest_assessment.get('reviewed_by_doctor', False),
                     "symptoms_count": len(latest_assessment.get('symptoms', [])),
                     "pending_reviews": pending_reviews
                 }
-            
+
             mothers_list.append(mother_data)
-        
+
         return jsonify({
             "doctor_id": doctor_id,
             "doctor_name": doctor.get('name'),
@@ -129,117 +161,133 @@ def get_mothers():
 @doctor_bp.route('/assessments', methods=['GET'])
 def get_assessments():
     """
-    Get assessment history for a specific mother.
+    Get assessment history for a specific mother OR pending assessments for a doctor.
     
     Query params:
-    - mother_id: Mother ID (required)
-    - limit: Number of assessments to return (optional, default: all)
+    - mother_id: Mother ID (to get history for one mother)
+    - doctor_id: Doctor ID (to get all pending reviews for this doctor)
+    - limit: Number of assessments to return (optional, default: 50)
     
     Returns:
-    - All assessments for the mother with AI evaluations
+    - List of assessments with AI evaluations and basic info
     """
     try:
-        # Get mother ID from query params
         mother_id = request.args.get('mother_id')
-        limit = request.args.get('limit', type=int)
+        doctor_id = request.args.get('doctor_id')
+        limit = request.args.get('limit', default=50, type=int)
         
-        if not mother_id:
-            return jsonify({
-                "error": "mother_id parameter is required"
-            }), 400
-        
-        # Verify mother exists
-        mother = mothers_repo.get_by_id(mother_id)
-        if not mother:
-            return jsonify({
-                "error": "Mother not found"
-            }), 404
-        
-        # Get assessment history
-        assessments = assessments_repo.list_by_mother(mother_id, limit=limit)
-        
-        # Format response
         assessments_list = []
-        for assessment in assessments:
-            ai_eval = assessment.get('ai_evaluation', {})
-            
-            # Get ASHA worker name
-            asha_name = 'ASHA Worker'
-            asha_id = assessment.get('asha_id')
-            if asha_id:
-                from app.repositories import asha_repo
-                asha_worker = asha_repo.get_by_id(asha_id)
-                if asha_worker:
-                    asha_name = asha_worker.get('name', 'ASHA Worker')
-            
-            # Get consultation details if reviewed
-            doctor_consultation = None
-            if assessment.get('reviewed_by_doctor') and assessment.get('consultation_id'):
-                consultation = consultations_repo.get_by_id(assessment.get('consultation_id'))
-                if consultation:
-                    doctor = doctors_repo.get_by_id(consultation.get('doctor_id'))
-                    
-                    # Handle treatment_plan - can be string or dict
-                    treatment_plan_data = consultation.get('treatment_plan', {})
-                    if isinstance(treatment_plan_data, dict):
-                        treatment_plan_text = treatment_plan_data.get('follow_up_instructions') or str(treatment_plan_data)
-                        prescriptions = treatment_plan_data.get('medications')
-                    else:
-                        treatment_plan_text = str(treatment_plan_data)
-                        prescriptions = None
-                    
-                    doctor_consultation = {
-                        "diagnosis": consultation.get('diagnosis'),
-                        "observations": consultation.get('clinical_observations'),
-                        "treatment_plan": treatment_plan_text,
-                        "doctor_risk_assessment": consultation.get('doctor_risk_assessment'),
-                        "doctor_name": doctor.get('name') if doctor else 'Unknown',
-                        "timestamp": consultation.get('created_at').isoformat() if consultation.get('created_at') else None,
-                        "ai_overridden": consultation.get('overrides_ai_assessment', False),
-                        "override_reason": consultation.get('override_reason'),
-                        "prescriptions": prescriptions,
-                        "follow_up_date": consultation.get('next_visit_date').isoformat() if consultation.get('next_visit_date') else None,
-                        "updated_vitals": consultation.get('updated_vitals')
-                    }
-            
-            assessment_data = {
-                "assessment_id": str(assessment['_id']),
-                "assessment_number": assessment.get('assessment_number'),
-                "timestamp": assessment.get('timestamp').isoformat() if assessment.get('timestamp') else None,
-                "asha_id": str(assessment.get('asha_id')) if assessment.get('asha_id') else None,
-                "asha_name": asha_name,
-                "gestational_age_weeks": assessment.get('gestational_age_at_assessment'),
-                "vitals": assessment.get('vitals', {}),
-                "symptoms": assessment.get('symptoms', []),
-                "asha_notes": assessment.get('asha_notes', ''),
-                "ai_evaluation": {
-                    "risk_score": ai_eval.get('risk_score'),
-                    "risk_category": ai_eval.get('risk_category', 'NOT_EVALUATED'),
-                    "confidence": ai_eval.get('confidence'),
-                    "recommended_actions": ai_eval.get('recommended_actions', []),
-                    "agent_outputs": ai_eval.get('agent_outputs'),
-                    "reasoning": ai_eval.get('reasoning')
-                } if ai_eval else None,
-                "doctor_reviewed": assessment.get('reviewed_by_doctor', False),
-                "doctor_reviewed_at": assessment.get('doctor_reviewed_at').isoformat() if assessment.get('doctor_reviewed_at') else None,
-                "doctor_consultation": doctor_consultation
-            }
-            
-            assessments_list.append(assessment_data)
         
-        return jsonify({
-            "mother_id": mother_id,
-            "mother_name": mother.get('name'),
-            "total_assessments": len(assessments_list),
-            "assessments": assessments_list
-        }), 200
-    
+        if mother_id:
+            # Case 1: Get history for a specific mother
+            mother = mothers_repo.get_by_id(mother_id)
+            if not mother:
+                return jsonify({"error": "Mother not found"}), 404
+            
+            # Use specific mother name for all assessments here
+            common_mother_name = mother.get('name', 'Unknown')
+            assessments = assessments_repo.list_by_mother(mother_id, limit=limit)
+            
+            # Context for ASHA name resolution
+            from app.repositories import asha_repo
+            
+            for assessment in assessments:
+                inner_asha_id = assessment.get('asha_id')
+                inner_asha_name = 'ASHA Worker'
+                if inner_asha_id:
+                    asha_worker = asha_repo.get_by_id(str(inner_asha_id))
+                    if asha_worker:
+                        inner_asha_name = asha_worker.get('name', 'ASHA Worker')
+                
+                assessments_list.append(_format_as_s_res(assessment, common_mother_name, inner_asha_name))
+                
+            return jsonify({
+                "mother_id": mother_id,
+                "mother_name": common_mother_name,
+                "total_assessments": len(assessments_list),
+                "assessments": assessments_list
+            }), 200
+
+        elif doctor_id:
+            # Case 2: Get all pending assessments for a doctor (Dashboard view)
+            assessments = assessments_repo.list_pending_doctor_review(doctor_id, limit=limit)
+            
+            from app.repositories import asha_repo
+            
+            for assessment in assessments:
+                # Need to resolve mother name for each
+                m_id = assessment.get('mother_id')
+                m_name = 'Unknown'
+                if m_id:
+                    m_obj = mothers_repo.get_by_id(str(m_id))
+                    if m_obj:
+                        m_name = m_obj.get('name', 'Unknown')
+                
+                # Need to resolve ASHA name for each
+                a_id = assessment.get('asha_id')
+                a_name = 'ASHA Worker'
+                if a_id:
+                    a_obj = asha_repo.get_by_id(str(a_id))
+                    if a_obj:
+                        a_name = a_obj.get('name', 'ASHA Worker')
+                
+                assessments_list.append(_format_as_s_res(assessment, m_name, a_name))
+                
+            return jsonify({
+                "doctor_id": doctor_id,
+                "total_assessments": len(assessments_list),
+                "assessments": assessments_list
+            }), 200
+            
+        else:
+            return jsonify({
+                "error": "Either mother_id or doctor_id parameter is required"
+            }), 400
+            
     except Exception as e:
         current_app.logger.error(f"Error fetching assessments: {e}", exc_info=True)
         return jsonify({
             "error": "Failed to fetch assessments",
             "details": str(e)
         }), 500
+
+
+def _format_as_s_res(assessment, mother_name, asha_name):
+    """Internal helper to format assessment data for list views"""
+    ai_eval = assessment.get('ai_evaluation', {})
+    
+    # Get consultation details if reviewed
+    doctor_consultation = None
+    if assessment.get('reviewed_by_doctor') and assessment.get('consultation_id'):
+        from app.repositories import consultations_repo
+        consultation = consultations_repo.get_by_id(assessment.get('consultation_id'))
+        if consultation:
+            # Basic consultation info
+            doctor_consultation = {
+                "diagnosis": consultation.get('diagnosis'),
+                "doctor_risk_assessment": consultation.get('doctor_risk_assessment'),
+                "timestamp": _safe_iso(consultation.get('created_at'))
+            }
+    
+    return {
+        "assessment_id": str(assessment['_id']),
+        "assessment_number": assessment.get('assessment_number'),
+        "timestamp": _safe_iso(assessment.get('timestamp')),
+        "mother_id": str(assessment.get('mother_id')),
+        "mother_name": mother_name,
+        "asha_id": str(assessment.get('asha_id')),
+        "asha_name": asha_name,
+        "gestational_age_weeks": assessment.get('gestational_age_at_assessment'),
+        "vitals": assessment.get('vitals', {}),
+        "symptoms": assessment.get('symptoms', []),
+        "ai_evaluation": {
+            "risk_score": ai_eval.get('risk_score'),
+            "risk_category": ai_eval.get('risk_category', 'NOT_EVALUATED'),
+            "recommended_actions": ai_eval.get('recommended_actions', [])
+        } if ai_eval else None,
+        "doctor_reviewed": assessment.get('reviewed_by_doctor', False),
+        "doctor_consultation": doctor_consultation
+    }
 
 
 @doctor_bp.route('/assessment/<assessment_id>', methods=['GET'])
@@ -723,16 +771,10 @@ def review_document():
             asha_id = mother.get('assigned_asha_id')
             if asha_id:
                 # Create notification message for ASHA
-                message_text = f"""📋 Doctor Review: Document Analysis
+                message_text = f"""Doctor Review: Document Analysis for {mother.get('name')}.
+Doctor's Notes: {notes}
 
 Document: {document.get('file_metadata', {}).get('original_filename', 'Medical Document')}
-Mother: {mother.get('name')}
-
-👨‍⚕️ Doctor's Notes:
-{notes}
-
-{'⚠️ Note: Doctor has overridden the AI analysis with corrected findings.' if ai_overridden else ''}
-
 View full details in the portal.
 """
                 

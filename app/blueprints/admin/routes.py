@@ -290,6 +290,66 @@ def assign_worker():
         return jsonify({"error": str(e)}), 500
 
 
+@admin_bp.route('/asha', methods=['POST'])
+def add_asha():
+    """Register a new ASHA worker."""
+    try:
+        data = request.get_json()
+        
+        # Required fields in data
+        required = ['name', 'phone', 'username', 'password', 'area']
+        for field in required:
+            if not data.get(field):
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+        
+        # Check if username exists
+        from app.db import get_collection
+        if get_collection('asha_workers').find_one({'username': data['username']}):
+            return jsonify({"error": "Username already exists"}), 400
+        
+        # Create record
+        asha_id = asha_repo.create(data)
+        
+        return jsonify({
+            "status": "success",
+            "message": "ASHA worker registered successfully",
+            "asha_id": str(asha_id)
+        }), 201
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@admin_bp.route('/doctors', methods=['POST'])
+def add_doctor():
+    """Register a new doctor."""
+    try:
+        data = request.get_json()
+        
+        # Required fields
+        required = ['name', 'phone', 'username', 'password', 'specialization']
+        for field in required:
+            if not data.get(field):
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+        
+        # Check if username exists
+        from app.db import get_collection
+        if get_collection('doctors').find_one({'username': data['username']}):
+            return jsonify({"error": "Username already exists"}), 400
+        
+        # Create record
+        doctor_id = doctors_repo.create(data)
+        
+        return jsonify({
+            "status": "success",
+            "message": "Doctor registered successfully",
+            "doctor_id": str(doctor_id)
+        }), 201
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @admin_bp.route('/health', methods=['GET'])
 def health():
     """Health check endpoint for Admin blueprint"""

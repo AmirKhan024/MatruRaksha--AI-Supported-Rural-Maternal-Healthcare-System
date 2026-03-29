@@ -55,6 +55,38 @@ def webhook():
             current_app.logger.warning("No chat_id in update")
             return jsonify({"status": "ok"}), 200
         
+        # Handle voice messages (used during AI registration)
+        if 'voice' in message:
+            current_app.logger.info(f"[TELEGRAM] Voice message received from {chat_id}")
+            try:
+                from app.repositories import registration_repo
+                session = registration_repo.get_session(str(chat_id))
+                if session and session.get('registration_active'):
+                    result = telegram_handlers.handle_registration_voice(chat_id, message['voice'])
+                    current_app.logger.info(f"[TELEGRAM] Voice registration result: {result}")
+                else:
+                    from app.services import telegram_service
+                    telegram_service.send_message(
+                        chat_id,
+                        "🎤 Voice messages are supported during registration. Press the 📝 Register button to start."
+                    )
+            except Exception as e:
+                current_app.logger.error(f"[TELEGRAM] Voice handling failed: {e}", exc_info=True)
+            return jsonify({"status": "ok"}), 200
+
+        # Handle contact sharing (used during AI registration for phone number)
+        if 'contact' in message:
+            current_app.logger.info(f"[TELEGRAM] Contact received from {chat_id}")
+            try:
+                from app.repositories import registration_repo
+                session = registration_repo.get_session(str(chat_id))
+                if session and session.get('registration_active'):
+                    result = telegram_handlers.handle_registration_contact(chat_id, message['contact'])
+                    current_app.logger.info(f"[TELEGRAM] Contact registration result: {result}")
+            except Exception as e:
+                current_app.logger.error(f"[TELEGRAM] Contact handling failed: {e}", exc_info=True)
+            return jsonify({"status": "ok"}), 200
+
         # Handle document uploads (photos and files)
         if 'photo' in message:
             current_app.logger.info(f"[TELEGRAM] Photo received from {chat_id}, processing...")

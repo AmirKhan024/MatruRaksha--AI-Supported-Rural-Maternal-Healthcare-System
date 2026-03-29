@@ -25,7 +25,7 @@ class Config:
     
     # MongoDB settings
     MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb://localhost:27017')
-    MONGODB_DB_NAME = os.getenv('MONGODB_DB_NAME', 'matruraksha')
+    MONGODB_DB_NAME = os.getenv('MONGODB_DB_NAME', 'ArogyaMaa')
     
     # Telegram Bot settings
     TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
@@ -36,7 +36,7 @@ class Config:
     
     # LangSmith settings (for AI observability)
     LANGSMITH_API_KEY = os.getenv('LANGSMITH_API_KEY')
-    LANGSMITH_PROJECT = os.getenv('LANGSMITH_PROJECT', 'matruraksha')
+    LANGSMITH_PROJECT = os.getenv('LANGSMITH_PROJECT', 'ArogyaMaa')
     LANGCHAIN_TRACING_V2 = os.getenv('LANGCHAIN_TRACING_V2', 'true')
     
     # Server settings

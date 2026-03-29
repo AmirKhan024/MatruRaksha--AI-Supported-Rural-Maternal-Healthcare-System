@@ -89,3 +89,21 @@ def health():
         "service": "api",
         "status": "active"
     }), 200
+
+
+@api_bp.route('/documents/file/<filename>', methods=['GET'])
+def get_document_file(filename):
+    """
+    Serve uploaded document files.
+    
+    Args:
+        filename: Stored filename of the document
+    """
+    import os
+    from flask import send_from_directory
+    try:
+        upload_dir = os.path.join(current_app.root_path, '..', 'uploads', 'documents')
+        return send_from_directory(upload_dir, filename)
+    except Exception as e:
+        current_app.logger.error(f"Error serving document file: {e}", exc_info=True)
+        return jsonify({"error": "File not found"}), 404

@@ -3,7 +3,17 @@
 {% block page_title %}Doctor Consultation{% endblock %}{% block page_header %}Create Consultation{% endblock %}
 {% block content %}
 <div class="page-actions">
-    <button class="btn btn-secondary" onclick="history.back()">← Back</button>
+    <button class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+</div>
+
+<!-- Patient Selection -->
+<div class="info-card" id="patient-selection-card" style="margin-bottom: 2rem;">
+    <h4>Select Patient</h4>
+    <div class="form-group" style="margin-bottom: 0;">
+        <select id="mother-select" class="form-control" onchange="handleMotherSelection()">
+            <option value="">-- Loading Patients... --</option>
+        </select>
+    </div>
 </div>
 
 <!-- Assessment Summary -->
@@ -73,17 +83,16 @@
         </div>
         
         <div style="margin-top: 2rem;">
-            <button type="submit" class="btn btn-primary" id="submit-btn">Submit Consultation</button>
+            <button type="submit" class="btn btn-sakura" id="submit-btn">Submit Consultation</button>
             <button type="button" class="btn btn-secondary" onclick="resetForm()">Clear Form</button>
         </div>
     </form>
 </div>
 
-<!-- Success Modal -->
 <div id="success-modal" class="modal">
     <div class="modal-content" style="max-width: 500px;">
         <div class="modal-header">
-            <h3>✓ Consultation Submitted</h3>
+            <h3><i class="fa-solid fa-circle-check" style="color: #27ae60"></i> Consultation Submitted</h3>
             <button class="modal-close" onclick="closeSuccessModal()">&times;</button>
         </div>
         <div class="modal-body">
@@ -91,7 +100,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeSuccessModal()">Close</button>
-            <a href="{{ url_for('doctor_dashboard.mothers', doctor_id=doctor_id) }}" class="btn btn-primary">Back to Patients</a>
+            <a href="{{ url_for('doctor_dashboard.mothers', doctor_id=doctor_id) }}" class="btn btn-sakura">Back to Patients</a>
         </div>
     </div>
 </div>
@@ -99,10 +108,10 @@
 
 {% block extra_js %}
 <script>
-const ASSESSMENT_ID = "{{ assessment_id }}";
+let ASSESSMENT_ID = "{{ assessment_id }}";
 
-if (!DOCTOR_ID || !ASSESSMENT_ID) {
-    showAlert('Missing doctor_id or assessment_id in URL', 'error');
+if (!DOCTOR_ID) {
+    showAlert('Missing doctor_id in URL/Session', 'error');
 }
 
 // Toggle override fields
@@ -111,6 +120,64 @@ document.getElementById('override-ai').addEventListener('change', (e) => {
     document.getElementById('override-reason-group').style.display = display;
     document.getElementById('override-risk-group').style.display = display;
 });
+
+// Load mothers for the dropdown
+async function loadMothersList() {
+    if (!DOCTOR_ID) return;
+    
+    try {
+        const response = await fetch(`/doctor/mothers?doctor_id=${DOCTOR_ID}`);
+        const data = await response.json();
+        
+        const select = document.getElementById('mother-select');
+        select.innerHTML = '<option value="">-- Select a Patient --</option>';
+        
+        if (data.mothers && data.mothers.length > 0) {
+            data.mothers.forEach(mother => {
+                const hasAssessment = mother.latest_assessment != null;
+                const assessId = hasAssessment ? mother.latest_assessment.assessment_id : '';
+                
+                const option = document.createElement('option');
+                option.value = assessId;
+                
+                if (hasAssessment) {
+                    option.textContent = `${mother.name} (Risk: ${mother.current_risk_level})`;
+                } else {
+                    option.disabled = true;
+                    option.textContent = `${mother.name} (No pending assessment)`;
+                }
+                
+                // Pre-select if URL has this assessment ID
+                if (ASSESSMENT_ID && assessId === ASSESSMENT_ID) {
+                    option.selected = true;
+                }
+                
+                select.appendChild(option);
+            });
+        } else {
+            select.innerHTML = '<option value="">-- No Patients Found --</option>';
+        }
+    } catch (error) {
+        console.error('Failed to load mothers:', error);
+        document.getElementById('mother-select').innerHTML = '<option value="">Failed to load patients</option>';
+    }
+}
+
+// Handle Dropdown Change
+function handleMotherSelection() {
+    const select = document.getElementById('mother-select');
+    const selectedAssessmentId = select.value;
+    
+    if (selectedAssessmentId) {
+        ASSESSMENT_ID = selectedAssessmentId;
+        document.getElementById('consultation-form').style.display = 'block';
+        loadAssessmentSummary();
+    } else {
+        ASSESSMENT_ID = '';
+        document.getElementById('assessment-summary').style.display = 'none';
+        document.getElementById('consultation-form').style.display = 'none';
+    }
+}
 
 // Load assessment summary
 async function loadAssessmentSummary() {
@@ -124,15 +191,19 @@ async function loadAssessmentSummary() {
             throw new Error(data.error || 'Failed to load assessment');
         }
         
-        const assessment = data.assessment || {};
+        // Handle array response (if it returns a list) or single object
+        const assessment = Array.isArray(data.assessments) ? 
+            data.assessments.find(a => a._id === ASSESSMENT_ID) || data.assessments[0] : 
+            (data.assessment || {});
+            
         const aiEval = assessment.ai_evaluation || {};
         const vitals = assessment.vitals || {};
         
         document.getElementById('assessment-details').innerHTML = `
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div><strong>Mother:</strong> ${assessment.mother_name || 'Unknown'}</div>
+                <div><strong>Mother:</strong> ${assessment.mother_name || assessment.name || 'Unknown'}</div>
                 <div><strong>ASHA Worker:</strong> ${assessment.asha_name || 'Unknown'}</div>
-                <div><strong>Date:</strong> ${new Date(assessment.timestamp).toLocaleDateString()}</div>
+                <div><strong>Date:</strong> ${assessment.timestamp ? new Date(assessment.timestamp).toLocaleDateString() : 'N/A'}</div>
                 <div><strong>AI Risk:</strong> <span class="badge badge-${getRiskClass(aiEval.risk_category)}">${aiEval.risk_category || 'N/A'}</span></div>
                 <div><strong>BP:</strong> ${vitals.bp_systolic || 'N/A'}/${vitals.bp_diastolic || 'N/A'} mmHg</div>
                 <div><strong>Heart Rate:</strong> ${vitals.heart_rate || 'N/A'} bpm</div>
@@ -142,6 +213,7 @@ async function loadAssessmentSummary() {
         
     } catch (error) {
         console.error('Failed to load assessment summary:', error);
+        showAlert('Failed to load clinical vitals for this patient.', 'warning');
     }
 }
 
@@ -241,7 +313,13 @@ function getRiskClass(risk) {
 
 // Load data on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadAssessmentSummary();
+    loadMothersList();
+    if (ASSESSMENT_ID) {
+        loadAssessmentSummary();
+    } else {
+        document.getElementById('consultation-form').style.display = 'none';
+        document.getElementById('assessment-summary').style.display = 'none';
+    }
 });
 </script>
 {% endblock %}

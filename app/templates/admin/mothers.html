@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="page-actions">
-    <button class="btn btn-primary" onclick="loadMothersData()">Refresh Data</button>
+    <button class="btn btn-primary" onclick="loadMothersData()"><i class="fa-solid fa-sync"></i> Refresh Data</button>
 </div>
 
 <!-- Mothers Table -->
@@ -38,7 +38,7 @@
 <div id="assignment-modal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Update Assignments</h3>
+            <h3><i class="fa-solid fa-user-gear"></i> Update Assignments</h3>
             <button class="modal-close" onclick="closeAssignmentModal()">&times;</button>
         </div>
         <div class="modal-body">
@@ -65,7 +65,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeAssignmentModal()">Cancel</button>
-            <button class="btn btn-primary" onclick="saveAssignment()">Save Assignment</button>
+            <button class="btn btn-sakura" onclick="saveAssignment()">Save Assignment</button>
         </div>
     </div>
 </div>
@@ -117,8 +117,8 @@ function renderMothersTable() {
         // Registration badge
         const isTelegram = mother.registered_via === 'telegram';
         const regBadge = isTelegram 
-            ? '<span class="badge badge-info" title="Registered via Telegram">📱 Telegram</span>'
-            : '<span class="badge badge-secondary">Manual</span>';
+            ? '<span class="badge badge-info" title="Registered via Telegram"><i class="fa-brands fa-telegram"></i> Telegram</span>'
+            : '<span class="badge badge-secondary"><i class="fa-solid fa-keyboard"></i> Manual</span>';
         
         // Location display
         const location = mother.location || `${mother.village || 'N/A'} / ${mother.district || 'N/A'}`;
@@ -127,7 +127,7 @@ function renderMothersTable() {
             <tr>
                 <td>
                     <strong>${mother.name}</strong>
-                    ${isTelegram ? '<br><small style="color: #666;">📱 Self-registered</small>' : ''}
+                    ${isTelegram ? '<br><small style="color: var(--text-muted);"><i class="fa-solid fa-robot"></i> Self-registered</small>' : ''}
                 </td>
                 <td>${mother.age}</td>
                 <td>${location}</td>
@@ -137,8 +137,8 @@ function renderMothersTable() {
                 <td>${mother.assigned_doctor_name || '<em>Not assigned</em>'}</td>
                 <td>${regBadge}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" onclick="openAssignmentModal('${mother._id}')">
-                        Assign
+                    <button class="btn btn-sm btn-sakura" onclick="openAssignmentModal('${mother._id}')">
+                        <i class="fa-solid fa-user-pen"></i> Assign
                     </button>
                 </td>
             </tr>

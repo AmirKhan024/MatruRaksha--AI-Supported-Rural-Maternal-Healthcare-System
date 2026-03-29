@@ -7,7 +7,7 @@
 <!-- KPI Cards -->
 <div class="kpi-grid">
     <div class="kpi-card">
-        <div class="kpi-icon">👩</div>
+        <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Total Assigned Mothers</div>
             <div class="kpi-value" id="total-mothers">--</div>
@@ -15,15 +15,15 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">⚠️</div>
+        <div class="kpi-icon" style="color: var(--critical-color)"><i class="fa-solid fa-triangle-exclamation"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">High Risk Mothers</div>
-            <div class="kpi-value" id="high-risk-mothers">--</div>
+            <div class="kpi-value" id="high-risk-mothers" style="color: var(--critical-color)">--</div>
         </div>
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">📋</div>
+        <div class="kpi-icon"><i class="fa-solid fa-clipboard-list"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Pending Reviews</div>
             <div class="kpi-value" id="pending-reviews">--</div>
@@ -31,7 +31,7 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">💬</div>
+        <div class="kpi-icon"><i class="fa-solid fa-comments"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Consultations This Week</div>
             <div class="kpi-value" id="consultations-week">--</div>
@@ -176,10 +176,10 @@ async function loadRecentAssessments() {
         if (unreviewed.length === 0) {
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="7" style="text-align: center; padding: 2rem;">
-                        <div style="color: #6c757d;">
-                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✅</div>
-                            <p style="margin: 0; font-weight: 500;">All Caught Up!</p>
+                    <td colspan="7" style="text-align: center; padding: 2.5rem;">
+                        <div style="color: var(--text-secondary);">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--success-color);"><i class="fa-solid fa-circle-check"></i></div>
+                            <p style="margin: 0; font-weight: 600; color: var(--fuji-700);">All Caught Up!</p>
                             <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">No pending assessments to review.</p>
                         </div>
                     </td>
@@ -211,7 +211,9 @@ async function loadRecentAssessments() {
                     <td>${statusBadge}</td>
                     <td>
                         <a href="${window.location.pathname.replace('dashboard/', 'dashboard/consultation/new')}?doctor_id=${DOCTOR_ID}&assessment_id=${assessment.assessment_id}" 
-                           class="btn btn-sm btn-primary">Review</a>
+                           class="btn btn-sm btn-sakura">
+                           <i class="fa-solid fa-magnifying-glass-pulse"></i> Review
+                        </a>
                     </td>
                 </tr>
             `;

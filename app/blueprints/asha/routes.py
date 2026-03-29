@@ -12,11 +12,11 @@ from bson import ObjectId
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
-from app.repositories import mothers_repo, assessments_repo, asha_repo, documents_repo, messages_repo
+from app.repositories import mothers_repo, assessments_repo, asha_repo, documents_repo, messages_repo, doctors_repo
 
 # Try to import AI components, use fallback if unavailable
 try:
-    from app.ai import create_matruraksha_graph
+    from app.ai import create_ArogyaMaa_graph
     from app.ai.helpers import build_ai_evaluation, prepare_assessment_for_ai
     from app.ai.document_analyzer import analyze_medical_document
     AI_AVAILABLE = True
@@ -28,6 +28,19 @@ from app.ai.fallback import build_fallback_ai_evaluation
 from app.ai.alerts import send_ai_alerts
 
 asha_bp = Blueprint('asha', __name__)
+
+
+def safe_isoformat(value):
+    """Safely convert a datetime or string date to ISO format string.
+    Handles mixed DB state where some records store dates as strings,
+    others as datetime objects (e.g. from Telegram bot vs web registration)."""
+    if value is None:
+        return None
+    if isinstance(value, str):
+        return value  # Already a string, return as-is
+    if hasattr(value, 'isoformat'):
+        return value.isoformat()  # datetime / date object
+    return str(value)  # Fallback
 
 
 @asha_bp.route('/mothers', methods=['GET'])
@@ -80,25 +93,37 @@ def get_mothers():
                 ai_eval = latest.get('ai_evaluation') or {}
                 current_risk = ai_eval.get('risk_category')
             
-            # Safely get datetime fields
-            edd = pregnancy.get('edd')
-            edd_iso = edd.isoformat() if edd else None
-            
-            registered_at = mother.get('registered_at')
-            registered_at_iso = registered_at.isoformat() if registered_at else None
-            
+            # Safely get datetime fields (may be str or datetime in DB)
+            edd = pregnancy.get('edd') or pregnancy.get('edd_date')
+            edd_iso = safe_isoformat(edd)
+
+            registered_at = mother.get('registered_at') or mother.get('created_at')
+            registered_at_iso = safe_isoformat(registered_at)
+
+            # Resolve assigned doctor name
+            doctor_name = 'Not Assigned'
+            doctor_id_raw = mother.get('assigned_doctor_id')
+            if doctor_id_raw:
+                try:
+                    doctor = doctors_repo.get_by_id(str(doctor_id_raw))
+                    if doctor:
+                        doctor_name = doctor.get('name', 'Unknown Doctor')
+                except Exception:
+                    pass
+
             mothers_list.append({
                 "mother_id": str(mother['_id']),
                 "name": mother.get('name', 'Unknown'),
                 "age": mother.get('age'),
                 "phone": mother.get('phone'),
-                "gestational_age_weeks": pregnancy.get('gestational_age_weeks'),
+                "gestational_age_weeks": pregnancy.get('gestational_age_weeks') or mother.get('gestational_age'),
                 "edd": edd_iso,
                 "village": address.get('village'),
                 "registered_at": registered_at_iso,
                 "total_assessments": len(mother_assessments),
                 "current_risk": current_risk,
-                "last_assessment_date": last_assessment_date.isoformat() if last_assessment_date else None
+                "last_assessment_date": safe_isoformat(last_assessment_date),
+                "doctor_name": doctor_name
             })
         
         return jsonify({
@@ -258,7 +283,7 @@ def submit_assessment():
                         ai_input = prepare_assessment_for_ai(assessment, mother, historical)
                         
                         # Create and invoke LangGraph
-                        graph = create_matruraksha_graph()
+                        graph = create_ArogyaMaa_graph()
                         ai_result = graph.invoke(ai_input)
                         
                         # Transform to ai_evaluation schema
@@ -580,7 +605,7 @@ def upload_document():
         os.makedirs(upload_dir, exist_ok=True)
         
         # Generate unique filename
-        timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         unique_filename = f"{mother_id}_{timestamp}_{filename}"
         file_path = os.path.join(upload_dir, unique_filename)
         

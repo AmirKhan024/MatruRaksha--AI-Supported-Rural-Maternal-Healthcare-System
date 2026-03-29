@@ -4,8 +4,8 @@
 
 {% block content %}
 <div class="page-actions">
-    <button class="btn btn-secondary" onclick="window.history.back()">← Back to Mothers</button>
-    <button class="btn btn-primary" onclick="loadDocuments()">🔄 Refresh</button>
+    <button class="btn btn-secondary" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i> Back to Mothers</button>
+    <button class="btn btn-primary" onclick="loadDocuments()"><i class="fa-solid fa-rotate"></i> Refresh</button>
 </div>
 
 <!-- Mother Info Card -->
@@ -21,7 +21,7 @@
 
 <!-- Document Detail Modal -->
 <div id="detailModal" class="modal" style="display: none;">
-    <div class="modal-content" style="max-width: 800px;">
+    <div class="modal-content" style="max-width: 1100px; width: 95%;">
         <span class="close" onclick="closeDetailModal()">&times;</span>
         <div id="documentDetails"></div>
     </div>
@@ -105,6 +105,64 @@
     text-align: center;
     padding: 40px;
     color: #666;
+}
+
+/* Two-column Document Detail Layout */
+.document-details-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+.document-visual {
+    flex: 1;
+    min-width: 45%;
+    max-width: 50%;
+    min-height: 400px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.document-info {
+    flex: 1;
+    max-width: 55%;
+    overflow-y: auto;
+    max-height: 75vh;
+    padding-right: 15px;
+}
+
+/* Custom scrollbar for info panel */
+.document-info::-webkit-scrollbar {
+    width: 6px;
+}
+.document-info::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+    .document-details-layout {
+        flex-direction: column;
+    }
+    .document-visual, .document-info {
+        max-width: 100%;
+        min-width: 100%;
+    }
+    .document-visual {
+        min-height: 300px;
+    }
+    .document-info {
+        max-height: none;
+        overflow-y: visible;
+        padding-right: 0;
+    }
 }
 </style>
 {% endblock %}
@@ -195,7 +253,7 @@ function renderDocuments() {
         const uploadDate = new Date(doc.uploaded_at).toLocaleDateString();
         
         const abnormalBadge = doc.abnormal_count > 0 
-            ? `<span class="abnormal-badge">⚠️ ${doc.abnormal_count} Abnormal</span>`
+            ? `<span class="abnormal-badge"><i class="fa-solid fa-triangle-exclamation"></i> ${doc.abnormal_count} Abnormal</span>`
             : '';
         
         // Show AI summary or status message
@@ -203,20 +261,20 @@ function renderDocuments() {
         if (doc.ai_summary && doc.ai_summary !== 'Analysis completed') {
             aiSummaryHtml = `
                 <div class="ai-summary">
-                    <strong>🤖 AI Summary:</strong><br>
+                    <strong><i class="fa-solid fa-robot"></i> AI Summary:</strong><br>
                     ${doc.ai_summary}
                 </div>
             `;
         } else if (doc.has_ai_analysis) {
             aiSummaryHtml = `
                 <div class="ai-summary" style="background: #e3f2fd; color: #1976d2;">
-                    <strong>🤖 AI Analysis:</strong> Click to view details
+                    <strong><i class="fa-solid fa-magnifying-glass-chart"></i> AI Analysis:</strong> Click to view details
                 </div>
             `;
         } else {
             aiSummaryHtml = `
                 <div class="ai-summary" style="background: #fff3e0; color: #f57c00;">
-                    <strong>⚠️</strong> No AI analysis available
+                    <strong><i class="fa-solid fa-circle-exclamation"></i></strong> No AI analysis available
                 </div>
             `;
         }
@@ -232,7 +290,7 @@ function renderDocuments() {
                 ${aiSummaryHtml}
                 
                 <p style="font-size: 12px; color: #666; margin-top: 10px;">
-                    📅 ${uploadDate} • 📦 ${doc.file_info.size_kb} KB
+                    <i class="fa-solid fa-calendar"></i> ${uploadDate} • <i class="fa-solid fa-hard-drive"></i> ${doc.file_info.size_kb} KB
                 </p>
             </div>
         `;
@@ -253,33 +311,51 @@ async function viewDocumentDetail(documentId) {
         console.log('[DOCS] Full document data:', fullDoc);
         
         const aiAnalysis = fullDoc.ai_analysis || {};
+        const fileMeta = fullDoc.file_metadata || {};
+        const fileExt = fileMeta.file_type ? fileMeta.file_type.toLowerCase() : '';
+        const storedFilename = fileMeta.stored_filename || '';
+        const fileUrl = storedFilename ? '/api/documents/file/' + storedFilename : '';
         
-        let detailsHTML = `
-            <h3>📄 ${doc.file_info.filename}</h3>
-            <p><strong>Type:</strong> ${doc.document_type.replace('_', ' ')}</p>
-            <p><strong>Description:</strong> ${doc.description || 'No description'}</p>
-            <p><strong>Uploaded:</strong> ${new Date(doc.uploaded_at).toLocaleString()}</p>
+        // Build document visual element
+        let visualHTML = '';
+        if (!fileUrl) {
+            visualHTML = `<div style="text-align:center; padding: 40px; color: #888;"><i class="fa-solid fa-file-image fa-3x"></i><br>File not found</div>`;
+        } else if (['.jpg', '.jpeg', '.png', '.gif'].includes(fileExt)) {
+            visualHTML = `<a href="${fileUrl}" target="_blank"><img src="${fileUrl}" alt="Medical Document" style="max-width:100%; max-height:100%; object-fit:contain; border-radius: 8px;"></a>`;
+        } else if (fileExt === '.pdf') {
+            visualHTML = `<embed src="${fileUrl}" type="application/pdf" style="width:100%; height:600px; border:none; border-radius: 8px;"></embed>`;
+        } else {
+            visualHTML = `<div style="text-align:center; padding: 40px;"><i class="fa-solid fa-file fa-3x"></i><br><a href="${fileUrl}" class="btn btn-primary mt-3" target="_blank">Download File</a></div>`;
+        }
+
+        let infoHTML = `
+            <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+                <h3 style="margin-top:0;"><i class="fa-solid fa-file-medical"></i> ${doc.file_info.filename}</h3>
+                <p style="margin: 5px 0;"><strong>Type:</strong> ${doc.document_type.replace('_', ' ')}</p>
+                <p style="margin: 5px 0;"><strong>Description:</strong> ${doc.description || 'No description'}</p>
+                <p style="margin: 5px 0; font-size: 0.9em; color: #666;"><i class="fa-solid fa-calendar"></i> ${new Date(doc.uploaded_at).toLocaleString()} • <a href="${fileUrl}" target="_blank"><i class="fa-solid fa-download"></i> Download</a></p>
+            </div>
         `;
         
         // Show doctor review if available
         if (doc.doctor_review && doc.doctor_review.reviewed) {
             const reviewDate = new Date(doc.doctor_review.reviewed_at).toLocaleString();
-            detailsHTML += `
+            infoHTML += `
                 <div class="doctor-note" style="background: #e8f5e9; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 3px solid #4caf50;">
-                    <h4 style="margin-top: 0; color: #2e7d32;">👨‍⚕️ Doctor's Review</h4>
+                    <h4 style="margin-top: 0; color: #2e7d32;"><i class="fa-solid fa-user-doctor"></i> Doctor's Review</h4>
                     <p><strong>Reviewed by:</strong> ${doc.doctor_review.doctor_name}</p>
                     <p><strong>Date:</strong> ${reviewDate}</p>
-                    ${doc.doctor_review.ai_overridden ? '<p style="color: #ff9800; font-weight: bold;">⚠️ AI Analysis was overridden by doctor</p>' : ''}
+                    ${doc.doctor_review.ai_overridden ? '<p style="color: #ff9800; font-weight: bold;"><i class="fa-solid fa-triangle-exclamation"></i> AI Analysis was overridden by doctor</p>' : ''}
                     <p><strong>Doctor's Notes:</strong></p>
-                    <p style="white-space: pre-wrap;">${doc.doctor_review.notes}</p>
+                    <p style="white-space: pre-wrap; margin-bottom: 0;">${doc.doctor_review.notes}</p>
                 </div>
             `;
         }
         
         // Check if AI analysis exists and has content
         if (aiAnalysis.key_findings && aiAnalysis.key_findings.length > 0) {
-            detailsHTML += `
-                <h4 style="margin-top: 20px;">🔍 Key Findings:</h4>
+            infoHTML += `
+                <h4 style="margin-top: 20px;"><i class="fa-solid fa-magnifying-glass" style="color: #1976d2;"></i> Key Findings:</h4>
                 <ul class="findings-list">
                     ${aiAnalysis.key_findings.map(f => `<li>${f}</li>`).join('')}
                 </ul>
@@ -287,8 +363,8 @@ async function viewDocumentDetail(documentId) {
         }
         
         if (aiAnalysis.abnormal_values && aiAnalysis.abnormal_values.length > 0) {
-            detailsHTML += `
-                <h4 style="margin-top: 20px;">⚠️ Abnormal Values:</h4>
+            infoHTML += `
+                <h4 style="margin-top: 20px;"><i class="fa-solid fa-triangle-exclamation" style="color: #d32f2f;"></i> Abnormal Values:</h4>
                 <ul class="findings-list">
                     ${aiAnalysis.abnormal_values.map(a => `<li class="abnormal">${a}</li>`).join('')}
                 </ul>
@@ -296,15 +372,15 @@ async function viewDocumentDetail(documentId) {
         }
         
         if (aiAnalysis.clinical_summary) {
-            detailsHTML += `
-                <h4 style="margin-top: 20px;">🩺 Clinical Summary:</h4>
+            infoHTML += `
+                <h4 style="margin-top: 20px;"><i class="fa-solid fa-stethoscope" style="color: #388e3c;"></i> Clinical Summary:</h4>
                 <div class="ai-summary">${aiAnalysis.clinical_summary}</div>
             `;
         }
         
         if (aiAnalysis.recommendations && aiAnalysis.recommendations.length > 0) {
-            detailsHTML += `
-                <h4 style="margin-top: 20px;">💡 Recommendations:</h4>
+            infoHTML += `
+                <h4 style="margin-top: 20px;"><i class="fa-solid fa-lightbulb" style="color: #f57c00;"></i> Recommendations:</h4>
                 <ul class="findings-list">
                     ${aiAnalysis.recommendations.map(r => `<li>${r}</li>`).join('')}
                 </ul>
@@ -313,21 +389,33 @@ async function viewDocumentDetail(documentId) {
         
         // If AI analysis failed or has error
         if (aiAnalysis.error) {
-            detailsHTML += `
+            infoHTML += `
                 <div class="ai-summary" style="background: #ffebee; color: #c62828; margin-top: 20px;">
-                    <strong>⚠️ AI Analysis Error:</strong><br>
+                    <strong><i class="fa-solid fa-circle-exclamation"></i> AI Analysis Error:</strong><br>
                     ${aiAnalysis.error}<br><br>
                     <em>Manual review required. The document has been saved and can be reviewed by healthcare providers.</em>
                 </div>
             `;
         } else if (!aiAnalysis.key_findings && !aiAnalysis.clinical_summary) {
-            detailsHTML += `
+            infoHTML += `
                 <div class="ai-summary" style="background: #fff3e0; color: #f57c00; margin-top: 20px;">
-                    <strong>ℹ️ No AI Analysis Available</strong><br>
+                    <strong><i class="fa-solid fa-circle-info"></i> No AI Analysis Available</strong><br>
                     This document was uploaded but AI analysis is not available. Healthcare providers can manually review the document.
                 </div>
             `;
         }
+
+        // Construct final 2-column layout
+        let detailsHTML = `
+            <div class="document-details-layout">
+                <div class="document-visual">
+                    ${visualHTML}
+                </div>
+                <div class="document-info">
+                    ${infoHTML}
+                </div>
+            </div>
+        `;
         
         document.getElementById('documentDetails').innerHTML = detailsHTML;
         document.getElementById('detailModal').style.display = 'block';

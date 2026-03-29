@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}MatruRaksha ASHA{% endblock %}</title>
+    <title>{% block title %}ArogyaMaa ASHA{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
-    <!-- Reuse Admin CSS -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Reuse Theme CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
@@ -16,34 +22,34 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>MatruRaksha</h2>
+                <h2>🌸 ArogyaMaa</h2>
                 <p class="subtitle">ASHA Portal</p>
             </div>
             
             <nav class="sidebar-nav">
                 <a href="{{ url_for('asha_dashboard.dashboard', asha_id=asha_id) }}" class="nav-item {% if request.endpoint == 'asha_dashboard.dashboard' %}active{% endif %}">
-                    <span class="nav-icon">📊</span>
+                    <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span>
                     <span class="nav-text">Dashboard</span>
                 </a>
                 <a href="{{ url_for('asha_dashboard.mothers', asha_id=asha_id) }}" class="nav-item {% if request.endpoint == 'asha_dashboard.mothers' %}active{% endif %}">
-                    <span class="nav-icon">👩</span>
+                    <span class="nav-icon"><i class="fa-solid fa-person-breastfeeding"></i></span>
                     <span class="nav-text">My Mothers</span>
                 </a>
                 <a href="{{ url_for('asha_dashboard.new_assessment', asha_id=asha_id) }}" class="nav-item {% if request.endpoint == 'asha_dashboard.new_assessment' %}active{% endif %}">
-                    <span class="nav-icon">📋</span>
+                    <span class="nav-icon"><i class="fa-solid fa-clipboard-check"></i></span>
                     <span class="nav-text">New Assessment</span>
                 </a>
                 <a href="{{ url_for('asha_dashboard.rag_chatbot', asha_id=asha_id) }}" class="nav-item {% if request.endpoint == 'asha_dashboard.rag_chatbot' %}active{% endif %}">
-                    <span class="nav-icon">🤖</span>
+                    <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>
                     <span class="nav-text">AI Assistant</span>
                 </a>
                 <a href="{{ url_for('asha_dashboard.notifications', asha_id=asha_id) }}" class="nav-item {% if request.endpoint == 'asha_dashboard.notifications' %}active{% endif %}">
-                    <span class="nav-icon">🔔</span>
+                    <span class="nav-icon"><i class="fa-solid fa-bell"></i></span>
                     <span class="nav-text">Notifications</span>
                     <span id="unreadBadge" class="notification-badge" style="display: none;"></span>
                 </a>
                 <a href="{{ url_for('asha_dashboard.stats', asha_id=asha_id) }}" class="nav-item {% if request.endpoint == 'asha_dashboard.stats' %}active{% endif %}">
-                    <span class="nav-icon">📈</span>
+                    <span class="nav-icon"><i class="fa-solid fa-chart-simple"></i></span>
                     <span class="nav-text">My Statistics</span>
                 </a>
             </nav>
@@ -64,6 +70,7 @@
                         <span class="status-value status-active">Active</span>
                     </div>
                 </div>
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
         </aside>
         
@@ -118,26 +125,6 @@
             setInterval(updateNotificationBadge, 60000);
         });
     </script>
-    
-    <style>
-        .notification-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #ff5722;
-            color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 10px;
-            font-weight: bold;
-            min-width: 18px;
-            text-align: center;
-        }
-        
-        .nav-item {
-            position: relative;
-        }
-    </style>
     
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/admin_dashboard.js') }}"></script>

@@ -7,7 +7,7 @@ Defines the state structure that flows through all agent nodes.
 from typing import TypedDict, List, Dict, Optional, Literal
 
 
-class MatruRakshaState(TypedDict, total=False):
+class ArogyaMaaState(TypedDict, total=False):
     """
     State that flows through the LangGraph workflow.
     

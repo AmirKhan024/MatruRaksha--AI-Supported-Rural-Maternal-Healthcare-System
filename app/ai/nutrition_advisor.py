@@ -166,7 +166,7 @@ def generate_nutrition_recommendation(mother_id, query_text: str) -> str:
         raise
     
     # Build AI prompt
-    system_prompt = """You are an expert maternal nutrition advisor for MatruRaksha, an AI-assisted maternal health system in India.
+    system_prompt = """You are an expert maternal nutrition advisor for ArogyaMaa, an AI-assisted maternal health system in India.
 
 Your role:
 - Provide safe, evidence-based nutrition advice for pregnant women

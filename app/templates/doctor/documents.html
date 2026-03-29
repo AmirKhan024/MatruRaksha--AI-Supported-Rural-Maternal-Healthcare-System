@@ -4,8 +4,8 @@
 
 {% block content %}
 <div class="page-actions">
-    <button class="btn btn-secondary" onclick="window.history.back()">← Back</button>
-    <button class="btn btn-primary" onclick="loadDocuments()">🔄 Refresh</button>
+    <button class="btn btn-secondary" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+    <button class="btn btn-sakura" onclick="loadDocuments()"><i class="fa-solid fa-rotate"></i> Refresh</button>
 </div>
 
 <!-- Mother Info -->
@@ -21,14 +21,14 @@
 
 <!-- Document Review Modal -->
 <div id="reviewModal" class="modal" style="display: none;">
-    <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+    <div class="modal-content" style="max-width: 1100px; width: 95%; max-height: 90vh; overflow-y: auto;">
         <span class="close" onclick="closeReviewModal()">&times;</span>
         
         <div id="documentDetails"></div>
         
         <!-- Doctor Review Section -->
-        <div class="review-section" style="margin-top: 30px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
-            <h3>👨‍⚕️ Doctor's Review</h3>
+        <div class="review-section" style="margin-top: 30px; padding: 20px; background: rgba(30, 58, 95, 0.05); border-radius: 8px;">
+            <h3><i class="fa-solid fa-user-doctor"></i> Doctor's Review</h3>
             
             <!-- AI Override Option -->
             <div style="margin: 20px 0;">
@@ -40,8 +40,8 @@
             </div>
             
             <!-- Override Fields (hidden by default) -->
-            <div id="overrideFields" style="display: none; margin: 20px 0; padding: 15px; background: white; border-radius: 8px; border: 2px solid #ff9800;">
-                <h4 style="color: #ff9800;">⚠️ Corrected Analysis</h4>
+            <div id="overrideFields" style="display: none; margin: 20px 0; padding: 15px; background: white; border-radius: 8px; border: 2px solid var(--critical-color);">
+                <h4 style="color: var(--critical-color);"><i class="fa-solid fa-triangle-exclamation"></i> Corrected Analysis</h4>
                 <div class="form-group">
                     <label>Key Findings (one per line):</label>
                     <textarea id="correctedFindings" rows="4" class="form-control" placeholder="Enter corrected findings..."></textarea>
@@ -68,23 +68,22 @@
                 <div style="margin-top: 10px;">
                     <label style="display: block; margin: 5px 0;">
                         <input type="checkbox" id="notifyASHA" checked style="margin-right: 10px;">
-                        📋 Send to ASHA Worker (Portal Notification)
+                        <i class="fa-solid fa-clipboard-user"></i> Send to ASHA Worker (Portal Notification)
                     </label>
                     <label style="display: block; margin: 5px 0;">
                         <input type="checkbox" id="notifyMother" style="margin-right: 10px;">
-                        📱 Send to Mother (Telegram Message)
+                        <i class="fa-brands fa-telegram"></i> Send to Mother (Telegram Message)
                     </label>
                     <label style="display: block; margin: 5px 0;">
                         <input type="checkbox" id="notifyBoth" style="margin-right: 10px;">
-                        📢 Send to Both ASHA & Mother
+                        <i class="fa-solid fa-bullhorn"></i> Send to Both ASHA & Mother
                     </label>
                 </div>
             </div>
             
-            <!-- Action Buttons -->
             <div style="margin-top: 20px; display: flex; gap: 10px;">
-                <button class="btn btn-success" onclick="submitReview()" id="submitBtn">
-                    ✓ Submit Review & Send Notification
+                <button class="btn btn-sakura" onclick="submitReview()" id="submitBtn">
+                    <i class="fa-solid fa-check"></i> Submit Review & Send Notification
                 </button>
                 <button class="btn btn-secondary" onclick="closeReviewModal()">
                     Cancel
@@ -211,6 +210,44 @@
     padding: 40px;
     color: #666;
     font-size: 16px;
+}
+
+/* Two-column Document Detail Layout */
+.document-details-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.document-visual {
+    flex: 0 0 45%;
+    min-height: 380px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.document-info {
+    flex: 1;
+    overflow-y: visible;
+}
+
+@media (max-width: 900px) {
+    .document-details-layout {
+        flex-direction: column;
+    }
+    .document-visual {
+        flex: none;
+        width: 100%;
+        min-height: 280px;
+    }
 }
 
 .modal {
@@ -380,11 +417,11 @@ function renderDocuments() {
         const uploadDate = new Date(doc.uploaded_at).toLocaleDateString();
         
         const reviewed = doc.doctor_review ? true : false;
-        const reviewedBadge = reviewed ? '<span class="reviewed-badge">✓ Reviewed</span>' : '';
+        const reviewedBadge = reviewed ? '<span class="reviewed-badge"><i class="fa-solid fa-circle-check"></i> Reviewed</span>' : '';
         const cardClass = reviewed ? 'document-card reviewed' : 'document-card';
         
         const abnormalBadge = doc.abnormal_count > 0 
-            ? `<span class="abnormal-badge">⚠️ ${doc.abnormal_count} Abnormal</span>`
+            ? `<span class="abnormal-badge"><i class="fa-solid fa-triangle-exclamation"></i> ${doc.abnormal_count} Abnormal</span>`
             : '';
         
         let aiSummary = '';
@@ -392,7 +429,7 @@ function renderDocuments() {
             const summaryText = doc.ai_summary.substring(0, 150) + (doc.ai_summary.length > 150 ? '...' : '');
             aiSummary = `
                 <div class="ai-summary">
-                    <strong>🤖 AI Analysis:</strong> ${summaryText}
+                    <strong><i class="fa-solid fa-robot"></i> AI Analysis:</strong> ${summaryText}
                 </div>
             `;
         }
@@ -411,13 +448,13 @@ function renderDocuments() {
                 
                 ${reviewed ? `
                     <div class="doctor-note">
-                        <strong>👨‍⚕️ Your Note:</strong><br>
+                        <strong><i class="fa-solid fa-user-doctor"></i> Your Note:</strong><br>
                         ${doc.doctor_review.notes.substring(0, 100)}${doc.doctor_review.notes.length > 100 ? '...' : ''}
                     </div>
                 ` : ''}
                 
                 <p style="font-size: 12px; color: #666; margin-top: 10px;">
-                    📦 ${doc.file_info.size_kb} KB • Click to review
+                    <i class="fa-solid fa-box-archive"></i> ${doc.file_info.size_kb} KB • Click to review
                 </p>
             </div>
         `;
@@ -439,69 +476,86 @@ async function reviewDocument(documentId) {
         
         const aiAnalysis = fullDoc.ai_analysis || {};
         const doctorReview = fullDoc.doctor_review || null;
+        const fileMeta = fullDoc.file_metadata || {};
+        const fileExt = fileMeta.file_type ? fileMeta.file_type.toLowerCase() : '';
+        const storedFilename = fileMeta.stored_filename || '';
+        const fileUrl = storedFilename ? '/api/documents/file/' + storedFilename : '';
+        
+        // Build document visual element
+        let visualHTML = '';
+        if (!fileUrl) {
+            visualHTML = `<div style="text-align:center; padding: 40px; color: #888;"><i class="fa-solid fa-file-image fa-3x"></i><br>File not available</div>`;
+        } else if (['.jpg', '.jpeg', '.png', '.gif'].includes(fileExt)) {
+            visualHTML = `<a href="${fileUrl}" target="_blank"><img src="${fileUrl}" alt="Medical Document" style="max-width:100%; max-height:500px; object-fit:contain; border-radius: 8px;"></a>`;
+        } else if (fileExt === '.pdf') {
+            visualHTML = `<embed src="${fileUrl}" type="application/pdf" style="width:100%; height:500px; border:none; border-radius: 8px;"></embed>`;
+        } else {
+            visualHTML = `<div style="text-align:center; padding: 40px;"><i class="fa-solid fa-file fa-3x"></i><br><a href="${fileUrl}" class="btn btn-primary" target="_blank" style="margin-top:15px; display:inline-block;">Download File</a></div>`;
+        }
         
         const uploadedByText = fullDoc.uploaded_by_name 
             ? `by ASHA ${fullDoc.uploaded_by_name}` 
             : `by ${fullDoc.uploaded_by || 'Unknown'}`;
         
-        let detailsHTML = `
-            <h3>📄 ${fullDoc.file_metadata?.original_filename || 'Document'}</h3>
-            <p><strong>Type:</strong> ${fullDoc.document_type?.replace('_', ' ') || 'Unknown'}</p>
-            <p><strong>Uploaded:</strong> ${new Date(fullDoc.uploaded_at).toLocaleString()} ${uploadedByText}</p>
-            ${fullDoc.description ? `<p><strong>Description:</strong> ${fullDoc.description}</p>` : ''}
+        let infoHTML = `
+            <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+                <h3 style="margin-top:0;"><i class="fa-solid fa-file-medical"></i> ${fullDoc.file_metadata?.original_filename || 'Document'}</h3>
+                <p style="margin: 4px 0;"><strong>Type:</strong> ${fullDoc.document_type?.replace('_', ' ') || 'Unknown'}</p>
+                <p style="margin: 4px 0;"><strong>Uploaded:</strong> ${new Date(fullDoc.uploaded_at).toLocaleString()} ${uploadedByText}</p>
+                ${fullDoc.description ? `<p style="margin: 4px 0;"><strong>Description:</strong> ${fullDoc.description}</p>` : ''}
+                <p style="margin: 4px 0; font-size: 0.9em; color: #666;"><a href="${fileUrl}" target="_blank"><i class="fa-solid fa-download"></i> Download original file</a></p>
+            </div>
         `;
         
         // Show AI Analysis
         if (aiAnalysis.key_findings && aiAnalysis.key_findings.length > 0) {
-            detailsHTML += `
-                <h4 style="margin-top: 20px;">🤖 AI Analysis:</h4>
-                <div style="background: #f5f5f5; padding: 15px; border-radius: 8px;">
+            infoHTML += `
+                <h4 style="margin-top: 20px;"><i class="fa-solid fa-robot" style="color: #1976d2;"></i> AI Analysis:</h4>
+                <div style="background: rgba(30, 58, 95, 0.05); padding: 15px; border-radius: 8px;">
             `;
             
-            if (aiAnalysis.key_findings.length > 0) {
-                detailsHTML += `<strong>Key Findings:</strong><ul class="findings-list">`;
-                aiAnalysis.key_findings.forEach(f => {
-                    detailsHTML += `<li>${f}</li>`;
-                });
-                detailsHTML += `</ul>`;
-            }
+            infoHTML += `<strong>Key Findings:</strong><ul class="findings-list">`;
+            aiAnalysis.key_findings.forEach(f => {
+                infoHTML += `<li>${f}</li>`;
+            });
+            infoHTML += `</ul>`;
             
             if (aiAnalysis.abnormal_values && aiAnalysis.abnormal_values.length > 0) {
-                detailsHTML += `<strong>Abnormal Values:</strong><ul class="findings-list">`;
+                infoHTML += `<strong>Abnormal Values:</strong><ul class="findings-list">`;
                 aiAnalysis.abnormal_values.forEach(a => {
-                    detailsHTML += `<li class="abnormal">${a}</li>`;
+                    infoHTML += `<li class="abnormal">${a}</li>`;
                 });
-                detailsHTML += `</ul>`;
+                infoHTML += `</ul>`;
             }
             
             if (aiAnalysis.clinical_summary) {
-                detailsHTML += `<p><strong>Clinical Summary:</strong><br>${aiAnalysis.clinical_summary}</p>`;
+                infoHTML += `<p><strong>Clinical Summary:</strong><br>${aiAnalysis.clinical_summary}</p>`;
             }
             
             if (aiAnalysis.recommendations && aiAnalysis.recommendations.length > 0) {
-                detailsHTML += `<strong>Recommendations:</strong><ul class="findings-list">`;
+                infoHTML += `<strong>Recommendations:</strong><ul class="findings-list">`;
                 aiAnalysis.recommendations.forEach(r => {
-                    detailsHTML += `<li>${r}</li>`;
+                    infoHTML += `<li>${r}</li>`;
                 });
-                detailsHTML += `</ul>`;
+                infoHTML += `</ul>`;
             }
             
-            detailsHTML += `</div>`;
+            infoHTML += `</div>`;
         } else {
-            detailsHTML += `
+            infoHTML += `
                 <div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <strong>⚠️ No AI analysis available for this document</strong>
+                    <strong><i class="fa-solid fa-circle-exclamation"></i> No AI analysis available for this document</strong>
                 </div>
             `;
         }
         
         // Show previous doctor review if exists
         if (doctorReview) {
-            detailsHTML += `
+            infoHTML += `
                 <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <h4>✓ Previously Reviewed</h4>
+                    <h4><i class="fa-solid fa-circle-check" style="color: #27ae60"></i> Previously Reviewed</h4>
                     <p><strong>Date:</strong> ${new Date(doctorReview.reviewed_at).toLocaleString()}</p>
-                    ${doctorReview.ai_overridden ? '<p class="override-notice">⚠️ AI Analysis was overridden</p>' : ''}
+                    ${doctorReview.ai_overridden ? '<p class="override-notice"><i class="fa-solid fa-triangle-exclamation"></i> AI Analysis was overridden</p>' : ''}
                     <p><strong>Notes:</strong><br>${doctorReview.notes}</p>
                     ${doctorReview.notification_sent_to ? `<p><strong>Notified:</strong> ${doctorReview.notification_sent_to.join(', ')}</p>` : ''}
                 </div>
@@ -529,6 +583,18 @@ async function reviewDocument(documentId) {
                 toggleAIOverride();
             }, 100);
         }
+        
+        // Final 2-column layout
+        let detailsHTML = `
+            <div class="document-details-layout">
+                <div class="document-visual">
+                    ${visualHTML}
+                </div>
+                <div class="document-info">
+                    ${infoHTML}
+                </div>
+            </div>
+        `;
         
         document.getElementById('documentDetails').innerHTML = detailsHTML;
         document.getElementById('reviewModal').style.display = 'flex';
@@ -627,7 +693,7 @@ async function submitReview() {
         alert('Failed to submit review: ' + error.message);
     } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = '✓ Submit Review & Send Notification';
+        submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Submit Review & Send Notification';
     }
 }
 

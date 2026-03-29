@@ -1,7 +1,7 @@
 
 {% extends "asha/base.html" %}
 
-{% block title %}ASHA AI Assistant - MatruRaksha{% endblock %}
+{% block title %}ASHA AI Assistant - ArogyaMaa{% endblock %}
 
 {% block page_title %}ASHA AI Assistant{% endblock %}
 
@@ -16,7 +16,7 @@
     /* Chat History Sidebar */
     .chat-sidebar {
         width: 280px;
-        background: linear-gradient(180deg, #1e1e2e 0%, #2d2d44 100%);
+        background: linear-gradient(180deg, var(--fuji-900) 0%, var(--fuji-700) 100%);
         display: flex;
         flex-direction: column;
         border-radius: 12px 0 0 12px;
@@ -38,7 +38,7 @@
     }
 
     .new-chat-btn {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-pink-hover) 100%);
         color: white;
         border: none;
         padding: 10px 16px;
@@ -53,7 +53,7 @@
 
     .new-chat-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 4px 12px rgba(244, 114, 182, 0.4);
     }
 
     .chat-history-list {
@@ -80,7 +80,7 @@
     }
 
     .chat-history-item.active {
-        background: rgba(102, 126, 234, 0.3);
+        background: rgba(244, 114, 182, 0.25);
         color: white;
     }
 
@@ -127,7 +127,7 @@
     }
 
     .chat-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--fuji-600) 0%, var(--fuji-400) 100%);
         color: white;
         padding: 20px;
         display: flex;
@@ -215,7 +215,7 @@
     }
 
     .message.user .message-content {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-pink-hover) 100%);
         color: white;
         border-bottom-right-radius: 4px;
     }
@@ -233,12 +233,12 @@
     }
 
     .message.assistant .message-avatar {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--fuji-500) 0%, var(--fuji-300) 100%);
         color: white;
     }
 
     .message.user .message-avatar {
-        background: #e5e7eb;
+        background: var(--bg-card);
     }
 
     .message-meta {
@@ -255,7 +255,7 @@
 
     .response-section h4 {
         font-size: 0.9em;
-        color: #667eea;
+        color: var(--fuji-600);
         margin: 0 0 8px 0;
         font-weight: 600;
     }
@@ -294,9 +294,9 @@
     }
 
     .blocked-message {
-        background: #fef2f2;
-        border: 1px solid #fecaca;
-        color: #991b1b;
+        background: rgba(231, 76, 60, 0.05);
+        border: 1px solid var(--critical-color);
+        color: var(--critical-color);
         padding: 15px;
         border-radius: 8px;
         margin-top: 10px;
@@ -304,7 +304,7 @@
 
     .disclaimer {
         background: #fffbeb;
-        border: 1px solid #fcd34d;
+        border: 1px solid var(--warning-color);
         color: #92400e;
         padding: 12px;
         border-radius: 8px;
@@ -358,11 +358,11 @@
 
     .chat-input:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: var(--sakura-pink);
     }
 
     .send-button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-pink-hover) 100%);
         color: white;
         border: none;
         border-radius: 50%;
@@ -376,7 +376,7 @@
 
     .send-button:hover:not(:disabled) {
         transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 4px 12px rgba(244, 114, 182, 0.4);
     }
 
     .send-button:disabled {
@@ -407,7 +407,7 @@
     .typing-dot {
         width: 8px;
         height: 8px;
-        background: #667eea;
+        background: var(--sakura-pink);
         border-radius: 50%;
         animation: typing 1.4s infinite;
     }
@@ -449,8 +449,8 @@
     }
 
     .quick-question:hover {
-        border-color: #667eea;
-        background: #f8f9fa;
+        border-color: var(--sakura-pink);
+        background: rgba(244, 114, 182, 0.05);
         transform: translateY(-2px);
     }
 
@@ -493,14 +493,14 @@
     <!-- Chat History Sidebar -->
     <div class="chat-sidebar">
         <div class="sidebar-header">
-            <h4>💬 Chat History</h4>
+            <h4><i class="fa-solid fa-clock-rotate-left"></i> Chat History</h4>
             <button class="new-chat-btn" onclick="createNewChat()">
-                <span>➕</span> New Chat
+                <i class="fa-solid fa-plus"></i> New Chat
             </button>
         </div>
         <div class="chat-history-list" id="chatHistoryList">
             <div class="no-chats" id="noChatsState">
-                <div class="no-chats-icon">📭</div>
+                <div class="no-chats-icon"><i class="fa-solid fa-inbox"></i></div>
                 <p>No chat history yet</p>
                 <p style="font-size: 0.8em;">Start a new conversation!</p>
             </div>
@@ -510,7 +510,7 @@
     <!-- Main Chat Container -->
     <div class="chat-container">
         <div class="chat-header">
-            <div class="chat-header-icon">🤖</div>
+            <div class="chat-header-icon"><i class="fa-solid fa-robot"></i></div>
             <div class="chat-header-info">
                 <h3>ASHA AI Assistant</h3>
                 <p>Ask questions about maternal health, danger signs, and ASHA guidelines</p>
@@ -523,7 +523,7 @@
 
         <div class="chat-messages" id="chatMessages">
         <div class="empty-state" id="emptyState">
-            <div class="empty-state-icon">💬</div>
+            <div class="empty-state-icon"><i class="fa-solid fa-comments"></i></div>
             <h3>Welcome to ASHA AI Assistant</h3>
             <p>I can help you with maternal health queries, danger signs identification, and ASHA worker guidelines.</p>
             <p style="font-size: 0.9em; margin-top: 10px;">Try asking a question below or use the quick questions.</p>
@@ -531,19 +531,19 @@
 
         <div class="quick-questions" id="quickQuestions">
             <div class="quick-question" onclick="askQuestion('What are the danger signs during pregnancy?')">
-                <span class="quick-question-icon">⚠️</span>
+                <span class="quick-question-icon"><i class="fa-solid fa-triangle-exclamation" style="color: var(--critical-color)"></i></span>
                 Danger signs during pregnancy
             </div>
             <div class="quick-question" onclick="askQuestion('When should I refer a mother to a doctor?')">
-                <span class="quick-question-icon">🏥</span>
+                <span class="quick-question-icon"><i class="fa-solid fa-hospital" style="color: var(--fuji-600)"></i></span>
                 When to refer to doctor
             </div>
             <div class="quick-question" onclick="askQuestion('What vaccinations are needed during pregnancy?')">
-                <span class="quick-question-icon">💉</span>
+                <span class="quick-question-icon"><i class="fa-solid fa-syringe" style="color: var(--sakura-pink)"></i></span>
                 Pregnancy vaccinations
             </div>
             <div class="quick-question" onclick="askQuestion('What are the nutrition guidelines for pregnant women?')">
-                <span class="quick-question-icon">🥗</span>
+                <span class="quick-question-icon"><i class="fa-solid fa-apple-whole" style="color: var(--success-color)"></i></span>
                 Nutrition guidelines
             </div>
         </div>
@@ -568,7 +568,7 @@
                 onkeydown="handleKeyPress(event)"
             ></textarea>
             <button id="sendButton" class="send-button" onclick="sendMessage()">
-                ➤
+                <i class="fa-solid fa-paper-plane"></i>
             </button>
         </div>
     </div>
@@ -595,14 +595,14 @@ function generateChatTitle(message) {
     
     // If message starts with common patterns, use them
     const patterns = [
-        { match: /danger\s+signs?/i, title: '⚠️ Danger Signs Query' },
-        { match: /blood\s+pressure/i, title: '💓 Blood Pressure Query' },
-        { match: /nutrition|diet|food/i, title: '🥗 Nutrition Query' },
-        { match: /refer|doctor|hospital/i, title: '🏥 Referral Query' },
-        { match: /pregnancy|pregnant/i, title: '🤰 Pregnancy Query' },
-        { match: /baby|infant|child/i, title: '👶 Baby Care Query' },
-        { match: /anemia|iron/i, title: '💊 Anemia Query' },
-        { match: /vaccination|vaccine/i, title: '💉 Vaccination Query' }
+        { match: /danger\s+signs?/i, title: 'Danger Signs Query' },
+        { match: /blood\s+pressure/i, title: 'Blood Pressure Query' },
+        { match: /nutrition|diet|food/i, title: 'Nutrition Query' },
+        { match: /refer|doctor|hospital/i, title: 'Referral Query' },
+        { match: /pregnancy|pregnant/i, title: 'Pregnancy Query' },
+        { match: /baby|infant|child/i, title: 'Baby Care Query' },
+        { match: /anemia|iron/i, title: 'Anemia Query' },
+        { match: /vaccination|vaccine/i, title: 'Vaccination Query' }
     ];
     
     for (const pattern of patterns) {
@@ -649,10 +649,10 @@ function renderChatHistory(threads) {
         const timeAgo = getTimeAgo(new Date(thread.updated_at));
         
         item.innerHTML = `
-            <span class="chat-icon">💬</span>
+            <span class="chat-icon"><i class="fa-solid fa-comment-medical"></i></span>
             <span class="chat-title">${escapeHtml(thread.title || 'New Chat')}</span>
             <span class="chat-time">${timeAgo}</span>
-            <button class="delete-btn" onclick="deleteThread(event, '${thread._id}')">🗑️</button>
+            <button class="delete-btn" onclick="deleteThread(event, '${thread._id}')"><i class="fa-solid fa-trash-can"></i></button>
         `;
         
         container.appendChild(item);
@@ -727,7 +727,7 @@ function addAssistantMessageFromHistory(data) {
     
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
-    avatar.textContent = '🤖';
+    avatar.innerHTML = '<i class="fa-solid fa-robot"></i>';
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
@@ -741,11 +741,11 @@ function addAssistantMessageFromHistory(data) {
         html = `<div><strong>Guidance:</strong><br>${escapeHtml(response.guidance || '')}</div>`;
         
         if (response.checklist && response.checklist.length > 0) {
-            html += `<div class="response-section"><h4>✓ Checklist:</h4><ul>${response.checklist.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>`;
+            html += `<div class="response-section"><h4><i class="fa-solid fa-list-check"></i> Checklist:</h4><ul>${response.checklist.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul></div>`;
         }
         
         if (response.sources && response.sources.length > 0) {
-            html += `<div class="sources"><strong>📚 Sources:</strong><div class="sources-list">${response.sources.map(s => `<span class="source-tag">${escapeHtml(s)}</span>`).join('')}</div></div>`;
+            html += `<div class="sources"><strong><i class="fa-solid fa-book-medical"></i> Sources:</strong><div class="sources-list">${response.sources.map(s => `<span class="source-tag">${escapeHtml(s)}</span>`).join('')}</div></div>`;
         }
     }
     
@@ -780,26 +780,26 @@ function clearChatMessages() {
     const container = document.getElementById('chatMessages');
     container.innerHTML = `
         <div class="empty-state" id="emptyState">
-            <div class="empty-state-icon">💬</div>
+            <div class="empty-state-icon"><i class="fa-solid fa-comments"></i></div>
             <h3>Welcome to ASHA AI Assistant</h3>
             <p>I can help you with maternal health queries, danger signs identification, and ASHA worker guidelines.</p>
             <p style="font-size: 0.9em; margin-top: 10px;">Try asking a question below or use the quick questions.</p>
         </div>
         <div class="quick-questions" id="quickQuestions">
             <div class="quick-question" onclick="askQuestion('What are the danger signs during pregnancy?')">
-                <span class="quick-question-icon">⚠️</span>
+                <span class="quick-question-icon"><i class="fa-solid fa-triangle-exclamation" style="color: var(--critical-color)"></i></span>
                 Danger signs during pregnancy
             </div>
             <div class="quick-question" onclick="askQuestion('How to check blood pressure?')">
-                <span class="quick-question-icon">💓</span>
+                <span class="quick-question-icon"><i class="fa-solid fa-heart-pulse" style="color: var(--sakura-pink)"></i></span>
                 How to check blood pressure
             </div>
             <div class="quick-question" onclick="askQuestion('When should I refer to a doctor?')">
-                <span class="quick-question-icon">🏥</span>
+                <span class="quick-question-icon"><i class="fa-solid fa-hospital" style="color: var(--fuji-600)"></i></span>
                 When to refer to doctor
             </div>
             <div class="quick-question" onclick="askQuestion('What nutrition advice for pregnant women?')">
-                <span class="quick-question-icon">🥗</span>
+                <span class="quick-question-icon"><i class="fa-solid fa-apple-whole" style="color: var(--success-color)"></i></span>
                 Nutrition during pregnancy
             </div>
         </div>
@@ -927,12 +927,12 @@ async function sendMessage() {
         if (data.status === 'success') {
             addAssistantMessage(data);
         } else {
-            addMessage('assistant', '⚠️ Sorry, I encountered an error. Please try again.');
+            addMessage('assistant', 'Sorry, I encountered an error. Please try again.');
         }
     } catch (error) {
         console.error('Error:', error);
         typingIndicator.classList.remove('active');
-        addMessage('assistant', '⚠️ Failed to connect to the assistant. Please check your connection.');
+        addMessage('assistant', 'Failed to connect to the assistant. Please check your connection.');
     } finally {
         sendButton.disabled = false;
         chatInput.focus();
@@ -946,7 +946,7 @@ function addMessage(role, content) {
     
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
-    avatar.textContent = role === 'user' ? '👤' : '🤖';
+    avatar.innerHTML = role === 'user' ? '<i class="fa-solid fa-user"></i>' : '<i class="fa-solid fa-robot"></i>';
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
@@ -984,7 +984,7 @@ function addAssistantMessage(data) {
     if (data.blocked) {
         html = `
             <div class="blocked-message">
-                ⛔ ${escapeHtml(data.message)}
+                <i class="fa-solid fa-ban"></i> ${escapeHtml(data.message)}
             </div>
         `;
         contentDiv.innerHTML = html;
@@ -1015,7 +1015,7 @@ function addAssistantMessage(data) {
             if (response.checklist && response.checklist.length > 0) {
                 additionalHtml += `
                     <div class="response-section">
-                        <h4>✓ Checklist:</h4>
+                        <h4><i class="fa-solid fa-list-check"></i> Checklist:</h4>
                         <ul>
                             ${response.checklist.map(item => `<li>${escapeHtml(item)}</li>`).join('')}
                         </ul>
@@ -1026,7 +1026,7 @@ function addAssistantMessage(data) {
             if (response.escalation_rule) {
                 additionalHtml += `
                     <div class="response-section">
-                        <h4>🏥 When to Escalate:</h4>
+                        <h4><i class="fa-solid fa-hospital-user"></i> When to Escalate:</h4>
                         <p>${escapeHtml(response.escalation_rule)}</p>
                     </div>
                 `;
@@ -1035,7 +1035,7 @@ function addAssistantMessage(data) {
             if (response.sources && response.sources.length > 0) {
                 additionalHtml += `
                     <div class="sources">
-                        <strong>📚 Sources:</strong>
+                        <strong><i class="fa-solid fa-book-medical"></i> Sources:</strong>
                         <div class="sources-list">
                             ${response.sources.map(source => `<span class="source-tag">${escapeHtml(source)}</span>`).join('')}
                         </div>
@@ -1046,7 +1046,7 @@ function addAssistantMessage(data) {
             if (response.disclaimer) {
                 additionalHtml += `
                     <div class="disclaimer">
-                        ℹ️ ${escapeHtml(response.disclaimer)}
+                        <i class="fa-solid fa-circle-info"></i> ${escapeHtml(response.disclaimer)}
                     </div>
                 `;
             }

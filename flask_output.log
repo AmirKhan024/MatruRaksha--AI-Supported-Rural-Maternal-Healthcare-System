@@ -1,0 +1,560 @@
+[2026-03-29 02:13:16,984] INFO in db: \u2713 MongoDB connected: mongodb://localhost:27017
+
+    ╔═══════════════════════════════════════╗
+    ║   ArogyaMaa Backend Server          ║
+    ║   Environment: development              ║
+    ║   Running on: http://0.0.0.0:8000      ║
+    ╚═══════════════════════════════════════╝
+    
+    Available endpoints:
+    - /telegram/webhook   → Telegram bot webhook
+    - /telegram/health    → Telegram service health
+    - /admin/analytics    → Admin analytics
+    - /admin/assign       → Assign workers
+    - /asha/mothers       → ASHA assigned mothers
+    - /asha/assessment    → Submit assessment
+    - /asha/stats         → ASHA statistics
+    - /doctor/mothers     → Doctor assigned mothers
+    - /doctor/assessments → View assessments
+    - /doctor/consultation → Submit consultation
+    - /doctor/message     → Send message to mother
+    - /ai/evaluate        → AI evaluation (placeholder)
+    
+ * Serving Flask app 'app'
+ * Debug mode: on
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.198.108.117:8000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+[2026-03-29 02:13:18,720] INFO in db: \u2713 MongoDB connected: mongodb://localhost:27017
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 865-878-466
+INFO:werkzeug: * Detected change in 'C:\\Users\\Amir Khan\\Desktop\\itm\\ArogyaMaa--AI-Supported-Rural-Maternal-Healthcare-System\\run_telegram_bot.py', reloading
+
+    ╔═══════════════════════════════════════╗
+    ║   ArogyaMaa Backend Server          ║
+    ║   Environment: development              ║
+    ║   Running on: http://0.0.0.0:8000      ║
+    ╚═══════════════════════════════════════╝
+    
+    Available endpoints:
+    - /telegram/webhook   → Telegram bot webhook
+    - /telegram/health    → Telegram service health
+    - /admin/analytics    → Admin analytics
+    - /admin/assign       → Assign workers
+    - /asha/mothers       → ASHA assigned mothers
+    - /asha/assessment    → Submit assessment
+    - /asha/stats         → ASHA statistics
+    - /doctor/mothers     → Doctor assigned mothers
+    - /doctor/assessments → View assessments
+    - /doctor/consultation → Submit consultation
+    - /doctor/message     → Send message to mother
+    - /ai/evaluate        → AI evaluation (placeholder)
+    
+Exception in thread Thread-2 (serve_forever):
+Traceback (most recent call last):
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\serving.py", line 819, in serve_forever
+    super().serve_forever(poll_interval=poll_interval)
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 235, in serve_forever
+    ready = selector.select(poll_interval)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 10038] An operation was attempted on something that is not a socket
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+[2026-03-29 02:13:34,005] INFO in db: \u2713 MongoDB connected: mongodb://localhost:27017
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 865-878-466
+INFO:werkzeug: * Detected change in 'C:\\Users\\Amir Khan\\Desktop\\itm\\ArogyaMaa--AI-Supported-Rural-Maternal-Healthcare-System\\run_telegram_bot.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\Amir Khan\\Desktop\\itm\\ArogyaMaa--AI-Supported-Rural-Maternal-Healthcare-System\\run_telegram_bot.py.tmp.47988.1774730633422', reloading
+
+    ╔═══════════════════════════════════════╗
+    ║   ArogyaMaa Backend Server          ║
+    ║   Environment: development              ║
+    ║   Running on: http://0.0.0.0:8000      ║
+    ╚═══════════════════════════════════════╝
+    
+    Available endpoints:
+    - /telegram/webhook   → Telegram bot webhook
+    - /telegram/health    → Telegram service health
+    - /admin/analytics    → Admin analytics
+    - /admin/assign       → Assign workers
+    - /asha/mothers       → ASHA assigned mothers
+    - /asha/assessment    → Submit assessment
+    - /asha/stats         → ASHA statistics
+    - /doctor/mothers     → Doctor assigned mothers
+    - /doctor/assessments → View assessments
+    - /doctor/consultation → Submit consultation
+    - /doctor/message     → Send message to mother
+    - /ai/evaluate        → AI evaluation (placeholder)
+    
+Exception in thread Thread-2 (serve_forever):
+Traceback (most recent call last):
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\serving.py", line 819, in serve_forever
+    super().serve_forever(poll_interval=poll_interval)
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 235, in serve_forever
+    ready = selector.select(poll_interval)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 10038] An operation was attempted on something that is not a socket
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+[2026-03-29 02:13:55,387] INFO in db: \u2713 MongoDB connected: mongodb://localhost:27017
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 865-878-466
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:14:14] "GET /telegram/health HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:14:36] "GET /telegram/health HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:14:41] "[33mGET / HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:14:57] "[33mGET / HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:15] "[32mGET /admin/dashboard HTTP/1.1[0m" 308 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:15] "GET /admin/dashboard/ HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:16] "GET /static/css/admin.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:16] "GET /static/js/admin_dashboard.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:16] "GET /admin/analytics HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:43] "GET /admin/dashboard/mothers HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:43] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:43] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:44] "GET /admin/mothers HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:44] "GET /admin/asha HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:15:44] "GET /admin/doctors HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:13] "POST /admin/assign HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:13] "GET /admin/mothers HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:14] "GET /admin/asha HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:14] "GET /admin/doctors HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:16] "GET /admin/dashboard/asha HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:17] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:17] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:17] "GET /admin/asha HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:27] "GET /admin/asha HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:30] "GET /admin/dashboard/doctors HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:30] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:30] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:30] "GET /admin/doctors HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:54] "GET /asha/dashboard/ HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:55] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:16:55] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:17:10] "[32mGET /asha/dashboard HTTP/1.1[0m" 308 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:17:10] "GET /asha/dashboard/ HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:17:10] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:17:10] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:17:44] "[33mGET /asha/dashboard/6950e2e760751e778fe10095 HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:01] "GET /asha/dashboard/new-assessment?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:01] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:01] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+[2026-03-29 02:18:01,773] INFO in routes: Found 6 mothers for ASHA 6950e2e760751e778fe10095
+INFO:app:Found 6 mothers for ASHA 6950e2e760751e778fe10095
+[2026-03-29 02:18:01,775] INFO in routes: Processing mother 0: 6950e2e760751e778fe10096
+INFO:app:Processing mother 0: 6950e2e760751e778fe10096
+[2026-03-29 02:18:01,777] INFO in routes: Processing mother 1: 6950e3ea15a8d1093de72a4f
+INFO:app:Processing mother 1: 6950e3ea15a8d1093de72a4f
+[2026-03-29 02:18:01,779] INFO in routes: Processing mother 2: 6950e3ea15a8d1093de72a51
+INFO:app:Processing mother 2: 6950e3ea15a8d1093de72a51
+[2026-03-29 02:18:01,782] INFO in routes: Processing mother 3: 6950e3ea15a8d1093de72a55
+INFO:app:Processing mother 3: 6950e3ea15a8d1093de72a55
+[2026-03-29 02:18:01,783] INFO in routes: Processing mother 4: 69522ea25402f399167eca6f
+INFO:app:Processing mother 4: 69522ea25402f399167eca6f
+[2026-03-29 02:18:01,785] INFO in routes: Processing mother 5: 6952348f1b067d319a840065
+INFO:app:Processing mother 5: 6952348f1b067d319a840065
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:01] "GET /asha/mothers?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:01] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:02] "GET /asha/dashboard/?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:02] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:02] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:03] "GET /asha/stats?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:03] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:03] "GET /asha/stats?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:10] "GET /asha/dashboard/mothers?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:10] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:10] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+[2026-03-29 02:18:10,704] INFO in routes: Found 6 mothers for ASHA 6950e2e760751e778fe10095
+INFO:app:Found 6 mothers for ASHA 6950e2e760751e778fe10095
+[2026-03-29 02:18:10,704] INFO in routes: Processing mother 0: 6950e2e760751e778fe10096
+INFO:app:Processing mother 0: 6950e2e760751e778fe10096
+[2026-03-29 02:18:10,707] INFO in routes: Processing mother 1: 6950e3ea15a8d1093de72a4f
+INFO:app:Processing mother 1: 6950e3ea15a8d1093de72a4f
+[2026-03-29 02:18:10,710] INFO in routes: Processing mother 2: 6950e3ea15a8d1093de72a51
+INFO:app:Processing mother 2: 6950e3ea15a8d1093de72a51
+[2026-03-29 02:18:10,712] INFO in routes: Processing mother 3: 6950e3ea15a8d1093de72a55
+INFO:app:Processing mother 3: 6950e3ea15a8d1093de72a55
+[2026-03-29 02:18:10,714] INFO in routes: Processing mother 4: 69522ea25402f399167eca6f
+INFO:app:Processing mother 4: 69522ea25402f399167eca6f
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:10] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+[2026-03-29 02:18:10,717] INFO in routes: Processing mother 5: 6952348f1b067d319a840065
+INFO:app:Processing mother 5: 6952348f1b067d319a840065
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:10] "GET /asha/mothers?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:33] "GET /asha/dashboard/documents?mother_id=6950e2e760751e778fe10096&asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:34] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:34] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:34] "GET /asha/documents/6950e2e760751e778fe10096 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:34] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:42] "GET /asha/dashboard/notifications?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:42] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:42] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:43] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:43] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:46] "POST /asha/notifications/6956292b7057a96c4bf9fe41/read HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:50] "GET /asha/dashboard/documents?mother_id=6952348f1b067d319a840065&asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:51] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:51] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:51] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:51] "GET /asha/documents/6952348f1b067d319a840065 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:18:54] "GET /api/documents/695628f17057a96c4bf9fe40 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:06] "GET /asha/dashboard/mothers?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:06] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:06] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:06] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+[2026-03-29 02:19:06,754] INFO in routes: Found 6 mothers for ASHA 6950e2e760751e778fe10095
+INFO:app:Found 6 mothers for ASHA 6950e2e760751e778fe10095
+[2026-03-29 02:19:06,754] INFO in routes: Processing mother 0: 6950e2e760751e778fe10096
+INFO:app:Processing mother 0: 6950e2e760751e778fe10096
+[2026-03-29 02:19:06,756] INFO in routes: Processing mother 1: 6950e3ea15a8d1093de72a4f
+INFO:app:Processing mother 1: 6950e3ea15a8d1093de72a4f
+[2026-03-29 02:19:06,759] INFO in routes: Processing mother 2: 6950e3ea15a8d1093de72a51
+INFO:app:Processing mother 2: 6950e3ea15a8d1093de72a51
+[2026-03-29 02:19:06,762] INFO in routes: Processing mother 3: 6950e3ea15a8d1093de72a55
+INFO:app:Processing mother 3: 6950e3ea15a8d1093de72a55
+[2026-03-29 02:19:06,763] INFO in routes: Processing mother 4: 69522ea25402f399167eca6f
+INFO:app:Processing mother 4: 69522ea25402f399167eca6f
+[2026-03-29 02:19:06,764] INFO in routes: Processing mother 5: 6952348f1b067d319a840065
+INFO:app:Processing mother 5: 6952348f1b067d319a840065
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:06] "GET /asha/mothers?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:09] "GET /asha/dashboard/new-assessment?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:09] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:09] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+[2026-03-29 02:19:10,215] INFO in routes: Found 6 mothers for ASHA 6950e2e760751e778fe10095
+INFO:app:Found 6 mothers for ASHA 6950e2e760751e778fe10095
+[2026-03-29 02:19:10,215] INFO in routes: Processing mother 0: 6950e2e760751e778fe10096
+INFO:app:Processing mother 0: 6950e2e760751e778fe10096
+[2026-03-29 02:19:10,218] INFO in routes: Processing mother 1: 6950e3ea15a8d1093de72a4f
+INFO:app:Processing mother 1: 6950e3ea15a8d1093de72a4f
+[2026-03-29 02:19:10,220] INFO in routes: Processing mother 2: 6950e3ea15a8d1093de72a51
+INFO:app:Processing mother 2: 6950e3ea15a8d1093de72a51
+[2026-03-29 02:19:10,225] INFO in routes: Processing mother 3: 6950e3ea15a8d1093de72a55
+INFO:app:Processing mother 3: 6950e3ea15a8d1093de72a55
+[2026-03-29 02:19:10,228] INFO in routes: Processing mother 4: 69522ea25402f399167eca6f
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:10] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:app:Processing mother 4: 69522ea25402f399167eca6f
+[2026-03-29 02:19:10,232] INFO in routes: Processing mother 5: 6952348f1b067d319a840065
+INFO:app:Processing mother 5: 6952348f1b067d319a840065
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:10] "GET /asha/mothers?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:13] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:20] "GET /asha/dashboard/ai-assistant?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:20] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:20] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:20] "GET /asha/rag/threads?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:21] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:21] "GET /asha/dashboard/new-assessment?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:22] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:22] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+[2026-03-29 02:19:22,545] INFO in routes: Found 6 mothers for ASHA 6950e2e760751e778fe10095
+INFO:app:Found 6 mothers for ASHA 6950e2e760751e778fe10095
+[2026-03-29 02:19:22,545] INFO in routes: Processing mother 0: 6950e2e760751e778fe10096
+INFO:app:Processing mother 0: 6950e2e760751e778fe10096
+[2026-03-29 02:19:22,547] INFO in routes: Processing mother 1: 6950e3ea15a8d1093de72a4f
+INFO:app:Processing mother 1: 6950e3ea15a8d1093de72a4f
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:22] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+[2026-03-29 02:19:22,549] INFO in routes: Processing mother 2: 6950e3ea15a8d1093de72a51
+INFO:app:Processing mother 2: 6950e3ea15a8d1093de72a51
+[2026-03-29 02:19:22,551] INFO in routes: Processing mother 3: 6950e3ea15a8d1093de72a55
+INFO:app:Processing mother 3: 6950e3ea15a8d1093de72a55
+[2026-03-29 02:19:22,552] INFO in routes: Processing mother 4: 69522ea25402f399167eca6f
+INFO:app:Processing mother 4: 69522ea25402f399167eca6f
+[2026-03-29 02:19:22,553] INFO in routes: Processing mother 5: 6952348f1b067d319a840065
+INFO:app:Processing mother 5: 6952348f1b067d319a840065
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:22] "GET /asha/mothers?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:23] "GET /asha/dashboard/ai-assistant?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:23] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:23] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:23] "GET /asha/rag/threads?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:23] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:26] "[35m[1mPOST /asha/rag/threads HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:26] "GET /asha/rag/threads?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+[2026-03-29 02:19:26,753] INFO in safety: \u2713 Safety filter initialized with pattern matching
+INFO:app.rag.safety:\u2713 Safety filter initialized with pattern matching
+[2026-03-29 02:19:26,753] INFO in api: \u2713 Safety filter initialized
+INFO:app.rag.api:\u2713 Safety filter initialized
+[2026-03-29 02:19:26,754] INFO in retriever: Loading embedding model for retrieval...
+INFO:app.rag.retriever:Loading embedding model for retrieval...
+C:\Users\Amir Khan\Desktop\itm\ArogyaMaa--AI-Supported-Rural-Maternal-Healthcare-System\app\rag\retriever.py:61: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the langchain-huggingface package and should be used instead. To use it run `pip install -U langchain-huggingface` and import as `from langchain_huggingface import HuggingFaceEmbeddings`.
+  self.embeddings = HuggingFaceEmbeddings(
+INFO:werkzeug: * Detected change in 'C:\\Users\\Amir Khan\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\torch\\cuda\\__init__.py', reloading
+INFO:werkzeug: * Detected change in 'C:\\Users\\Amir Khan\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\torch\\__init__.py', reloading
+
+    ╔═══════════════════════════════════════╗
+    ║   ArogyaMaa Backend Server          ║
+    ║   Environment: development              ║
+    ║   Running on: http://0.0.0.0:8000      ║
+    ╚═══════════════════════════════════════╝
+    
+    Available endpoints:
+    - /telegram/webhook   → Telegram bot webhook
+    - /telegram/health    → Telegram service health
+    - /admin/analytics    → Admin analytics
+    - /admin/assign       → Assign workers
+    - /asha/mothers       → ASHA assigned mothers
+    - /asha/assessment    → Submit assessment
+    - /asha/stats         → ASHA statistics
+    - /doctor/mothers     → Doctor assigned mothers
+    - /doctor/assessments → View assessments
+    - /doctor/consultation → Submit consultation
+    - /doctor/message     → Send message to mother
+    - /ai/evaluate        → AI evaluation (placeholder)
+    
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+[2026-03-29 02:19:31,777] INFO in db: \u2713 MongoDB connected: mongodb://localhost:27017
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 865-878-466
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:44] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:44] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:46] "GET /asha/rag/threads/695625cd7057a96c4bf9fe3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:47] "GET /asha/rag/threads?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:49] "GET /asha/rag/threads/695562fa263cec3d7c6f1d92 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:50] "GET /asha/rag/threads?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:52] "GET /asha/rag/threads/695562d9263cec3d7c6f1d90 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:52] "GET /asha/rag/threads?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:56] "[35m[1mPOST /asha/rag/threads HTTP/1.1[0m" 201 -
+[2026-03-29 02:19:57,222] INFO in safety: \u2713 Safety filter initialized with pattern matching
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:19:57] "GET /asha/rag/threads?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:app.rag.safety:\u2713 Safety filter initialized with pattern matching
+[2026-03-29 02:19:57,223] INFO in api: \u2713 Safety filter initialized
+INFO:app.rag.api:\u2713 Safety filter initialized
+[2026-03-29 02:19:57,223] INFO in retriever: Loading embedding model for retrieval...
+INFO:app.rag.retriever:Loading embedding model for retrieval...
+C:\Users\Amir Khan\Desktop\itm\ArogyaMaa--AI-Supported-Rural-Maternal-Healthcare-System\app\rag\retriever.py:61: LangChainDeprecationWarning: The class `HuggingFaceEmbeddings` was deprecated in LangChain 0.2.2 and will be removed in 1.0. An updated version of the class exists in the langchain-huggingface package and should be used instead. To use it run `pip install -U langchain-huggingface` and import as `from langchain_huggingface import HuggingFaceEmbeddings`.
+  self.embeddings = HuggingFaceEmbeddings(
+INFO:werkzeug: * Detected change in 'C:\\Users\\Amir Khan\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\torch\\nn\\functional.py', reloading
+
+    ╔═══════════════════════════════════════╗
+    ║   ArogyaMaa Backend Server          ║
+    ║   Environment: development              ║
+    ║   Running on: http://0.0.0.0:8000      ║
+    ╚═══════════════════════════════════════╝
+    
+    Available endpoints:
+    - /telegram/webhook   → Telegram bot webhook
+    - /telegram/health    → Telegram service health
+    - /admin/analytics    → Admin analytics
+    - /admin/assign       → Assign workers
+    - /asha/mothers       → ASHA assigned mothers
+    - /asha/assessment    → Submit assessment
+    - /asha/stats         → ASHA statistics
+    - /doctor/mothers     → Doctor assigned mothers
+    - /doctor/assessments → View assessments
+    - /doctor/consultation → Submit consultation
+    - /doctor/message     → Send message to mother
+    - /ai/evaluate        → AI evaluation (placeholder)
+    
+Exception in thread Thread-2 (serve_forever):
+Traceback (most recent call last):
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\serving.py", line 819, in serve_forever
+    super().serve_forever(poll_interval=poll_interval)
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 235, in serve_forever
+    ready = selector.select(poll_interval)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 10038] An operation was attempted on something that is not a socket
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+[2026-03-29 02:20:00,459] INFO in db: \u2713 MongoDB connected: mongodb://localhost:27017
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 865-878-466
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:02] "GET /asha/dashboard/notifications?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:02] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:02] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:02] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:03] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:09] "GET /asha/dashboard/stats?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:10] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:10] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:10] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:10] "GET /asha/stats?asha_id=6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:13] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:44] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:44] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:45] "GET /doctor/dashboard/?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:46] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:46] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:46] "GET /doctor/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:46] "[31m[1mGET /doctor/assessments?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:56] "GET /doctor/dashboard/?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:56] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:56] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:57] "GET /doctor/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:57] "[31m[1mGET /doctor/assessments?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:58] "GET /doctor/dashboard/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:59] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:59] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:20:59] "GET /doctor/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:03] "GET /doctor/dashboard/assessments?doctor_id=6950e3ea15a8d1093de72a4b&mother_id=6950e3ea15a8d1093de72a4d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:04] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:04] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:04] "GET /doctor/assessments?doctor_id=6950e3ea15a8d1093de72a4b&mother_id=6950e3ea15a8d1093de72a4d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:06] "GET /doctor/dashboard/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:06] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:06] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:06] "GET /doctor/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:07] "GET /doctor/dashboard/documents?doctor_id=6950e3ea15a8d1093de72a4b&mother_id=6950e3ea15a8d1093de72a4d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:07] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:08] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:08] "GET /asha/documents/6950e3ea15a8d1093de72a4d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:10] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:14] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:14] "GET /doctor/dashboard/documents?doctor_id=6950e3ea15a8d1093de72a4b&mother_id=69522ea25402f399167eca6f HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:14] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:14] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:14] "GET /asha/documents/69522ea25402f399167eca6f HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:18] "GET /api/documents/695518bd30d15d184de7bb70 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:29] "GET /api/documents/69551778717058d734acf5f0 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:33] "GET /doctor/dashboard/ai-assistant?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:33] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:33] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+[2026-03-29 02:21:40,918] INFO in ai_assistant: \u2713 Doctor AI Assistant initialized
+INFO:app.doctor.ai_assistant:\u2713 Doctor AI Assistant initialized
+[2026-03-29 02:21:40,918] INFO in ai_assistant: 
+======================================================================
+INFO:app.doctor.ai_assistant:
+======================================================================
+[2026-03-29 02:21:40,918] INFO in ai_assistant: Doctor AI Assistant - Case Analysis
+INFO:app.doctor.ai_assistant:Doctor AI Assistant - Case Analysis
+[2026-03-29 02:21:40,919] INFO in ai_assistant: ======================================================================
+INFO:app.doctor.ai_assistant:======================================================================
+[2026-03-29 02:21:40,919] INFO in ai_assistant: Calling Groq LLM for case analysis...
+INFO:app.doctor.ai_assistant:Calling Groq LLM for case analysis...
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+[2026-03-29 02:21:41,488] INFO in ai_assistant: \u2713 Case analysis completed
+INFO:app.doctor.ai_assistant:\u2713 Case analysis completed
+[2026-03-29 02:21:41,489] INFO in ai_api: Case analysis for mother 6950e3ea15a8d1093de72a4d: urgency=LOW
+INFO:app.doctor.ai_api:Case analysis for mother 6950e3ea15a8d1093de72a4d: urgency=LOW
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:41] "GET /doctor/ai/analyze-case/6950e3ea15a8d1093de72a4d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:44] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:21:44] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+[2026-03-29 02:22:05,104] INFO in ai_assistant: Doctor chat question: Explain the blood pressure trend for this patient...
+INFO:app.doctor.ai_assistant:Doctor chat question: Explain the blood pressure trend for this patient...
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+[2026-03-29 02:22:05,895] INFO in ai_assistant: \u2713 Chat response generated
+INFO:app.doctor.ai_assistant:\u2713 Chat response generated
+[2026-03-29 02:22:05,895] INFO in ai_api: Chat response for mother 6950e3ea15a8d1093de72a4d: Explain the blood pressure trend for this patient...
+INFO:app.doctor.ai_api:Chat response for mother 6950e3ea15a8d1093de72a4d: Explain the blood pressure trend for this patient...
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:05] "POST /doctor/ai/chat/6950e3ea15a8d1093de72a4d HTTP/1.1" 200 -
+[2026-03-29 02:22:09,574] INFO in ai_assistant: Doctor chat question: Compare the latest assessment with the previous on...
+INFO:app.doctor.ai_assistant:Doctor chat question: Compare the latest assessment with the previous on...
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+[2026-03-29 02:22:10,397] INFO in ai_assistant: \u2713 Chat response generated
+INFO:app.doctor.ai_assistant:\u2713 Chat response generated
+[2026-03-29 02:22:10,398] INFO in ai_api: Chat response for mother 6950e3ea15a8d1093de72a4d: Compare the latest assessment with the previous on...
+INFO:app.doctor.ai_api:Chat response for mother 6950e3ea15a8d1093de72a4d: Compare the latest assessment with the previous on...
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:10] "POST /doctor/ai/chat/6950e3ea15a8d1093de72a4d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:10] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:34] "GET /doctor/dashboard/message?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:36] "GET /doctor/dashboard/message?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:40] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:40] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:41] "GET /doctor/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:43] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:22:47] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:23:10] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+[2026-03-29 02:23:27,451] ERROR in telegram_service: Failed to send message to 1808009875: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
+ERROR:app:Failed to send message to 1808009875: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
+[2026-03-29 02:23:27,453] INFO in routes: Doctor Dr. Anjali Mehta sent message to Amir Khan: False
+INFO:app:Doctor Dr. Anjali Mehta sent message to Amir Khan: False
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:23:27] "[35m[1mPOST /doctor/message HTTP/1.1[0m" 207 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:23:43] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:23:48] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:07] "GET /doctor/dashboard/ai-assistant?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:07] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:07] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:09] "GET /doctor/dashboard/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:09] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:09] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:09] "GET /doctor/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:10] "GET /doctor/dashboard/?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:10] "[36mGET /static/css/admin.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:10] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:10] "GET /doctor/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:11] "[31m[1mGET /doctor/assessments?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:11] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:43] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:24:49] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:25:10] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:25:50] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:25:50] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:26:10] "GET /doctor/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:26:11] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:26:11] "[31m[1mGET /doctor/assessments?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:26:51] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:26:51] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:27:52] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:27:52] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:28:00] "GET /asha/notifications/6950e2e760751e778fe10095 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:28:11] "GET /doctor/mothers?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [29/Mar/2026 02:28:11] "[31m[1mGET /doctor/assessments?doctor_id=6950e3ea15a8d1093de72a4b HTTP/1.1[0m" 400 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\Amir Khan\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\_pytest\\cacheprovider.py', reloading
+
+    ╔═══════════════════════════════════════╗
+    ║   ArogyaMaa Backend Server          ║
+    ║   Environment: development              ║
+    ║   Running on: http://0.0.0.0:8000      ║
+    ╚═══════════════════════════════════════╝
+    
+    Available endpoints:
+    - /telegram/webhook   → Telegram bot webhook
+    - /telegram/health    → Telegram service health
+    - /admin/analytics    → Admin analytics
+    - /admin/assign       → Assign workers
+    - /asha/mothers       → ASHA assigned mothers
+    - /asha/assessment    → Submit assessment
+    - /asha/stats         → ASHA statistics
+    - /doctor/mothers     → Doctor assigned mothers
+    - /doctor/assessments → View assessments
+    - /doctor/consultation → Submit consultation
+    - /doctor/message     → Send message to mother
+    - /ai/evaluate        → AI evaluation (placeholder)
+    
+Exception in thread Thread-2 (serve_forever):
+Traceback (most recent call last):
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\serving.py", line 819, in serve_forever
+    super().serve_forever(poll_interval=poll_interval)
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 235, in serve_forever
+    ready = selector.select(poll_interval)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Amir Khan\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [WinError 10038] An operation was attempted on something that is not a socket
+INFO:werkzeug: * Restarting with watchdog (windowsapi)
+[2026-03-29 02:28:13,980] INFO in db: \u2713 MongoDB connected: mongodb://localhost:27017
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 865-878-466

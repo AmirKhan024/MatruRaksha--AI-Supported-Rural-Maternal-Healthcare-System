@@ -6,7 +6,7 @@
 <!-- KPI Cards -->
 <div class="kpi-grid">
     <div class="kpi-card">
-        <div class="kpi-icon">👩</div>
+        <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Total Mothers Assigned</div>
             <div class="kpi-value" id="total-mothers">--</div>
@@ -14,7 +14,7 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">📋</div>
+        <div class="kpi-icon"><i class="fa-solid fa-notes-medical"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Assessments This Week</div>
             <div class="kpi-value" id="assessments-week">--</div>
@@ -22,15 +22,15 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">⚠️</div>
+        <div class="kpi-icon" style="color: var(--critical-color)"><i class="fa-solid fa-triangle-exclamation"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">High Risk Detected</div>
-            <div class="kpi-value" id="high-risk-count">--</div>
+            <div class="kpi-value" id="high-risk-count" style="color: var(--critical-color)">--</div>
         </div>
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">📈</div>
+        <div class="kpi-icon"><i class="fa-solid fa-chart-column"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Total Assessments</div>
             <div class="kpi-value" id="total-assessments">--</div>
@@ -44,15 +44,15 @@
     <div class="stats-grid">
         <div class="stat-item" style="cursor: pointer;" onclick="window.location.href='{{ url_for('asha_dashboard.new_assessment', asha_id=asha_id) }}'">
             <div class="stat-label">New Assessment</div>
-            <div class="stat-value">➕</div>
+            <div class="stat-value"><i class="fa-solid fa-circle-plus" style="color: var(--sakura-pink)"></i></div>
         </div>
         <div class="stat-item" style="cursor: pointer;" onclick="window.location.href='{{ url_for('asha_dashboard.mothers', asha_id=asha_id) }}'">
             <div class="stat-label">View My Mothers</div>
-            <div class="stat-value">👥</div>
+            <div class="stat-value"><i class="fa-solid fa-people-group" style="color: var(--fuji-500)"></i></div>
         </div>
         <div class="stat-item" style="cursor: pointer;" onclick="window.location.href='{{ url_for('asha_dashboard.stats', asha_id=asha_id) }}'">
             <div class="stat-label">View Statistics</div>
-            <div class="stat-value">📊</div>
+            <div class="stat-value"><i class="fa-solid fa-chart-pie" style="color: var(--fuji-500)"></i></div>
         </div>
     </div>
 </div>

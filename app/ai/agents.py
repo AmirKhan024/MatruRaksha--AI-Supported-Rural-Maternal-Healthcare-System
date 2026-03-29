@@ -15,7 +15,7 @@ from typing import Dict, List, Optional
 from groq import Groq
 from pydantic import BaseModel, Field, ValidationError
 
-from .state import MatruRakshaState
+from .state import ArogyaMaaState
 
 
 # Initialize Groq client
@@ -106,7 +106,7 @@ def parse_and_validate(response_text: str, model_class: BaseModel) -> dict:
 # ORCHESTRATOR AGENT
 # ============================================================================
 
-def orchestrator_node(state: MatruRakshaState) -> MatruRakshaState:
+def orchestrator_node(state: ArogyaMaaState) -> ArogyaMaaState:
     """Orchestrator - determines which agents to invoke"""
     print("\n[ORCHESTRATOR] Starting AI analysis pipeline...")
     
@@ -128,7 +128,7 @@ def orchestrator_node(state: MatruRakshaState) -> MatruRakshaState:
 # RISK STRATIFICATION AGENT  
 # ============================================================================
 
-def risk_stratification_node(state: MatruRakshaState) -> MatruRakshaState:
+def risk_stratification_node(state: ArogyaMaaState) -> ArogyaMaaState:
     """
     Risk Stratification with PROPER SCORING LOGIC
     
@@ -336,7 +336,7 @@ Return this EXACT JSON structure:
 # SYMPTOM REASONING AGENT
 # ============================================================================
 
-def symptom_reasoning_node(state: MatruRakshaState) -> MatruRakshaState:
+def symptom_reasoning_node(state: ArogyaMaaState) -> ArogyaMaaState:
     """Symptom pattern recognition and cluster analysis"""
     print("\n[SYMPTOM REASONING] Analyzing symptom patterns...")
     
@@ -413,7 +413,7 @@ Return JSON:
 # TREND ANALYSIS AGENT
 # ============================================================================
 
-def trend_analysis_node(state: MatruRakshaState) -> MatruRakshaState:
+def trend_analysis_node(state: ArogyaMaaState) -> ArogyaMaaState:
     """Longitudinal trend analysis"""
     print("\n[TREND ANALYSIS] Analyzing health trends...")
     
@@ -495,7 +495,7 @@ Return JSON:
 # NUTRITION & LIFESTYLE AGENT
 # ============================================================================
 
-def nutrition_lifestyle_node(state: MatruRakshaState) -> MatruRakshaState:
+def nutrition_lifestyle_node(state: ArogyaMaaState) -> ArogyaMaaState:
     """Personalized nutrition and lifestyle recommendations"""
     print("\n[NUTRITION & LIFESTYLE] Generating recommendations...")
     
@@ -557,7 +557,7 @@ Return JSON:
 # COMMUNICATION AGENT
 # ============================================================================
 
-def communication_node(state: MatruRakshaState) -> MatruRakshaState:
+def communication_node(state: ArogyaMaaState) -> ArogyaMaaState:
     """Generate tailored messages for different stakeholders"""
     print("\n[COMMUNICATION] Generating stakeholder messages...")
     
@@ -626,7 +626,7 @@ Return JSON:
 # DOCUMENT ANALYSIS AGENT (Placeholder)
 # ============================================================================
 
-def document_analysis_node(state: MatruRakshaState) -> MatruRakshaState:
+def document_analysis_node(state: ArogyaMaaState) -> ArogyaMaaState:
     """Document analysis agent - placeholder for future implementation"""
     print("\n[DOCUMENT ANALYSIS] Processing documents...")
     
@@ -644,7 +644,7 @@ def document_analysis_node(state: MatruRakshaState) -> MatruRakshaState:
 # FINALIZE NODE
 # ============================================================================
 
-def finalize_node(state: MatruRakshaState) -> MatruRakshaState:
+def finalize_node(state: ArogyaMaaState) -> ArogyaMaaState:
     """
     Finalize Node - Aggregates all agent results and prepares final output.
     

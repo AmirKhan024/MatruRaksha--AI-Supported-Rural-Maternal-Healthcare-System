@@ -1,4 +1,4 @@
-# MatruRaksha - Complete Maternal Healthcare Platform
+# ArogyaMaa - Complete Maternal Healthcare Platform
 
 <div align="center">
 
@@ -32,7 +32,7 @@
 
 ## 🎯 Overview
 
-**MatruRaksha** (Mother's Protection) is a comprehensive maternal healthcare platform designed specifically for rural and underserved areas of India. The system bridges the gap between pregnant mothers, ASHA workers (frontline health workers), and doctors through intelligent AI-powered monitoring and real-time communication.
+**ArogyaMaa** (Mother's Protection) is a comprehensive maternal healthcare platform designed specifically for rural and underserved areas of India. The system bridges the gap between pregnant mothers, ASHA workers (frontline health workers), and doctors through intelligent AI-powered monitoring and real-time communication.
 
 ### The Problem We Solve
 
@@ -46,7 +46,7 @@ Rural India faces critical maternal healthcare challenges:
 
 ### Our Solution
 
-MatruRaksha provides:
+ArogyaMaa provides:
 - ✅ **AI-powered risk assessment** for early complication detection
 - ✅ **RAG-based chatbot** for ASHA workers with medical knowledge
 - ✅ **Doctor AI Assistant** for clinical decision support
@@ -407,7 +407,7 @@ Top 4 Chunks → Groq LLM → Formatted Response + Sources
 LANGCHAIN_TRACING_V2=true
 LANGCHAIN_API_KEY=lsv2_pt_...
 LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
-LANGCHAIN_PROJECT=matruraksha
+LANGCHAIN_PROJECT=ArogyaMaa
 ```
 
 ### 5. **LangGraph Workflow**
@@ -467,13 +467,13 @@ total_score = min(score, 100)
 ### Phase 0: Mother Self-Registration (Telegram)
 
 **Step 1: Discovery**
-- Mother searches for MatruRaksha bot on Telegram
+- Mother searches for ArogyaMaa bot on Telegram
 - Finds bot by name or username
 - Clicks "START" button
 
 **Step 2: Registration Process**
 ```
-Bot: 🌸 Welcome to MatruRaksha!
+Bot: 🌸 Welcome to ArogyaMaa!
      Let's get you registered.
      
      📝 Please enter your full name:
@@ -534,7 +534,7 @@ Mother: [Clicks ✅ Yes, Register Me]
 
 Bot: 🎉 Registration Successful! 🎉
      
-     Welcome to MatruRaksha, Priya Sharma!
+     Welcome to ArogyaMaa, Priya Sharma!
      
      ✅ Your profile has been created.
      ⏳ An admin will assign a healthcare team to you soon.
@@ -1244,8 +1244,8 @@ mongod --version
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/yourusername/MatruRaksha.git
-cd MatruRaksha
+git clone https://github.com/yourusername/ArogyaMaa.git
+cd ArogyaMaa
 ```
 
 ### Step 2: Create Virtual Environment
@@ -1272,7 +1272,7 @@ SECRET_KEY=your-secret-key-change-this
 
 # MongoDB
 MONGO_URI=mongodb://localhost:27017
-DB_NAME=matruraksha
+DB_NAME=ArogyaMaa
 
 # Groq API (Get from https://console.groq.com/)
 GROQ_API_KEY=gsk_your_api_key_here
@@ -1284,7 +1284,7 @@ TELEGRAM_BOT_TOKEN=your_bot_token_here
 LANGCHAIN_TRACING_V2=true
 LANGCHAIN_API_KEY=lsv2_pt_your_api_key
 LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
-LANGCHAIN_PROJECT=matruraksha
+LANGCHAIN_PROJECT=ArogyaMaa
 ```
 
 ### Step 5: Set Up RAG Knowledge Base

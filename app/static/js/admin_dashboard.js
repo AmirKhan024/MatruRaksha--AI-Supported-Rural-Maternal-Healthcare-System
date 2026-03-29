@@ -1,5 +1,5 @@
 /**
- * MatruRaksha Admin Dashboard JavaScript
+ * ArogyaMaa Admin Dashboard JavaScript
  * 
  * Provides common functionality for all admin pages:
  * - Alert notifications

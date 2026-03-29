@@ -23,7 +23,7 @@
     }
 
     .panel-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-pink-hover) 100%);
         color: white;
         padding: 20px;
     }
@@ -54,7 +54,7 @@
 
     .patient-search input:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: var(--sakura-pink);
     }
 
     .patient-list {
@@ -74,24 +74,24 @@
 
     .patient-item:hover {
         background: #f8f9fa;
-        border-color: #667eea;
+        border-color: var(--sakura-pink);
     }
-
+    
     .patient-item.selected {
-        background: #eef2ff;
-        border-color: #667eea;
+        background: rgba(244, 114, 182, 0.05);
+        border-color: var(--sakura-pink);
     }
-
+    
     .patient-item.high-risk {
-        border-left: 4px solid #ef4444;
+        border-left: 4px solid var(--critical-color);
     }
-
+    
     .patient-item.moderate-risk {
-        border-left: 4px solid #f59e0b;
+        border-left: 4px solid var(--warning-color);
     }
-
+    
     .patient-item.low-risk {
-        border-left: 4px solid #10b981;
+        border-left: 4px solid var(--success-color);
     }
 
     .patient-name {
@@ -121,31 +121,33 @@
     }
 
     .analysis-header {
-        background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+        background: linear-gradient(135deg, var(--fuji-800) 0%, var(--fuji-600) 100%);
         color: white;
         padding: 20px;
         display: flex;
         align-items: center;
         gap: 15px;
     }
-
+    
     .analysis-header-icon {
-        font-size: 2em;
+        font-size: 1.8em;
     }
-
+    
     .analysis-header h3 {
         margin: 0;
+        color: white;
     }
-
+    
     .analysis-header p {
         margin: 5px 0 0 0;
         opacity: 0.8;
         font-size: 0.9em;
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .analyze-btn {
         margin-left: auto;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-pink-hover) 100%);
         color: white;
         border: none;
         padding: 12px 24px;
@@ -155,10 +157,10 @@
         font-weight: 600;
         transition: transform 0.2s, box-shadow 0.2s;
     }
-
+    
     .analyze-btn:hover:not(:disabled) {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 4px 12px rgba(244, 114, 182, 0.4);
     }
 
     .analyze-btn:disabled {
@@ -281,23 +283,25 @@
         align-items: center;
         gap: 12px;
         padding: 15px 20px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--fuji-700) 0%, var(--fuji-500) 100%);
         color: white;
     }
-
+    
     .chat-header-icon {
-        font-size: 1.5em;
+        font-size: 1.4em;
     }
-
+    
     .chat-header h4 {
         margin: 0;
         font-size: 1.1em;
+        color: white;
     }
-
+    
     .chat-header p {
         margin: 3px 0 0 0;
         font-size: 0.85em;
         opacity: 0.9;
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .chat-messages {
@@ -354,11 +358,11 @@
     }
 
     .ai-avatar {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--fuji-600) 0%, var(--fuji-400) 100%);
     }
-
+    
     .doctor-avatar {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-pink-hover) 100%);
     }
 
     .message-bubble {
@@ -376,7 +380,7 @@
     }
 
     .doctor-bubble {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-pink-hover) 100%);
         color: white;
         border-radius: 16px 16px 4px 16px;
     }
@@ -407,7 +411,7 @@
     .typing-animation .dot {
         width: 8px;
         height: 8px;
-        background: #667eea;
+        background: var(--fuji-500);
         border-radius: 50%;
         animation: bounce 1.4s infinite ease-in-out;
     }
@@ -449,11 +453,11 @@
     }
 
     .quick-q:hover {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-pink-hover) 100%);
         color: white;
         border-color: transparent;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
     }
 
     .chat-input-area {
@@ -475,11 +479,11 @@
 
     .chat-input-area input:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: var(--sakura-pink);
     }
 
     .chat-input-area button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--sakura-pink) 0%, var(--sakura-pink-hover) 100%);
         color: white;
         border: none;
         padding: 12px 24px;
@@ -491,10 +495,10 @@
         gap: 8px;
         transition: transform 0.2s, box-shadow 0.2s;
     }
-
+    
     .chat-input-area button:hover:not(:disabled) {
         transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 4px 15px rgba(244, 114, 182, 0.4);
     }
 
     .chat-input-area button:disabled {
@@ -519,7 +523,7 @@
         width: 50px;
         height: 50px;
         border: 4px solid #e5e7eb;
-        border-top-color: #667eea;
+        border-top-color: var(--sakura-pink);
         border-radius: 50%;
         animation: spin 1s linear infinite;
     }
@@ -566,7 +570,7 @@
     <!-- Analysis Panel -->
     <div class="analysis-panel">
         <div class="analysis-header">
-            <div class="analysis-header-icon">🤖</div>
+            <div class="analysis-header-icon"><i class="fa-solid fa-robot"></i></div>
             <div>
                 <h3>AI Case Analysis</h3>
                 <p id="selectedPatientName">Select a patient to begin analysis</p>
@@ -578,7 +582,7 @@
 
         <div class="analysis-content" id="analysisContent">
             <div class="empty-state" id="emptyState">
-                <div class="empty-state-icon">🔍</div>
+                <div class="empty-state-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
                 <h3>No Analysis Yet</h3>
                 <p>Select a patient from the left panel and click "Analyze Case" to get AI-powered insights.</p>
                 <p style="margin-top: 15px; font-size: 0.9em; color: #9ca3af;">
@@ -674,14 +678,14 @@ function displayAnalysis(analysis) {
     // Urgency Banner
     html += `
         <div class="urgency-banner ${urgencyClass}">
-            ⚠️ URGENCY LEVEL: ${analysis.urgency_level || 'UNDETERMINED'}
+            <i class="fa-solid fa-triangle-exclamation"></i> URGENCY LEVEL: ${analysis.urgency_level || 'UNDETERMINED'}
         </div>
     `;
     
     // Case Summary
     html += `
         <div class="result-section">
-            <h4>📋 Case Summary</h4>
+            <h4><i class="fa-solid fa-clipboard-list"></i> Case Summary</h4>
             <p>${escapeHtml(analysis.case_summary || 'No summary available.')}</p>
         </div>
     `;
@@ -690,7 +694,7 @@ function displayAnalysis(analysis) {
     if (analysis.key_abnormal_findings && analysis.key_abnormal_findings.length > 0) {
         html += `
             <div class="result-section">
-                <h4>🔴 Key Abnormal Findings</h4>
+                <h4><i class="fa-solid fa-circle-exclamation" style="color: var(--critical-color)"></i> Key Abnormal Findings</h4>
                 ${analysis.key_abnormal_findings.map(f => {
                     // Handle both string and object findings
                     let findingText;
@@ -715,7 +719,7 @@ function displayAnalysis(analysis) {
     if (analysis.trend_observations && analysis.trend_observations.length > 0) {
         html += `
             <div class="result-section">
-                <h4>📈 Trend Observations</h4>
+                <h4><i class="fa-solid fa-chart-line"></i> Trend Observations</h4>
                 ${analysis.trend_observations.map(t => {
                     // Handle both string and object trends
                     let trendText;
@@ -733,7 +737,7 @@ function displayAnalysis(analysis) {
     // AI Flag Reasoning
     html += `
         <div class="result-section">
-            <h4>🤖 AI Flag Reasoning</h4>
+            <h4><i class="fa-solid fa-brain"></i> AI Flag Reasoning</h4>
             <p>${escapeHtml(analysis.ai_flag_reasoning || 'No reasoning provided.')}</p>
         </div>
     `;
@@ -741,7 +745,7 @@ function displayAnalysis(analysis) {
     // Doctor Note
     html += `
         <div class="doctor-note">
-            ℹ️ ${escapeHtml(analysis.doctor_note || 'This is AI-assisted screening. Clinical judgment required.')}
+            <i class="fa-solid fa-circle-info"></i> ${escapeHtml(analysis.doctor_note || 'This is AI-assisted screening. Clinical judgment required.')}
         </div>
     `;
     
@@ -749,7 +753,7 @@ function displayAnalysis(analysis) {
     html += `
         <div class="chat-section">
             <div class="chat-header">
-                <span class="chat-header-icon">💬</span>
+                <span class="chat-header-icon"><i class="fa-solid fa-comments"></i></span>
                 <div>
                     <h4>Ask Dr. AI About This Case</h4>
                     <p>Get insights, compare assessments, or ask follow-up questions</p>
@@ -757,21 +761,21 @@ function displayAnalysis(analysis) {
             </div>
             <div class="chat-messages" id="chatMessages">
                 <div class="chat-welcome">
-                    <div class="welcome-icon">🤖</div>
+                    <div class="welcome-icon"><i class="fa-solid fa-robot"></i></div>
                     <p>Hi Doctor! I'm here to help you understand this patient's case better. You can ask me to compare assessments, explain trends, or highlight concerns.</p>
                 </div>
             </div>
             <div class="quick-questions">
-                <button class="quick-q" onclick="askQuickQuestion('Compare the latest assessment with the previous one and highlight key changes')">📊 Compare Assessments</button>
-                <button class="quick-q" onclick="askQuickQuestion('What are the main clinical concerns I should focus on?')">⚠️ Key Concerns</button>
-                <button class="quick-q" onclick="askQuickQuestion('Explain the blood pressure trend for this patient')">📈 BP Trend</button>
-                <button class="quick-q" onclick="askQuickQuestion('Give me a quick 3-point summary of this case')">📝 Quick Summary</button>
+                <button class="quick-q" onclick="askQuickQuestion('Compare the latest assessment with the previous one and highlight key changes')"><i class="fa-solid fa-code-compare"></i> Compare Assessments</button>
+                <button class="quick-q" onclick="askQuickQuestion('What are the main clinical concerns I should focus on?')"><i class="fa-solid fa-circle-exclamation"></i> Key Concerns</button>
+                <button class="quick-q" onclick="askQuickQuestion('Explain the blood pressure trend for this patient')"><i class="fa-solid fa-chart-line"></i> BP Trend</button>
+                <button class="quick-q" onclick="askQuickQuestion('Give me a quick 3-point summary of this case')"><i class="fa-solid fa-list-ol"></i> Quick Summary</button>
             </div>
             <div class="chat-input-area">
                 <input type="text" id="chatInput" placeholder="Ask anything about this patient's case..." onkeypress="handleChatKeyPress(event)">
                 <button onclick="sendChatMessage()" id="chatSendBtn">
                     <span>Send</span>
-                    <span class="send-icon">→</span>
+                    <span class="send-icon"><i class="fa-solid fa-paper-plane"></i></span>
                 </button>
             </div>
         </div>
@@ -803,7 +807,7 @@ async function sendChatMessage() {
     const typingDiv = document.createElement('div');
     typingDiv.className = 'chat-message ai typing-msg';
     typingDiv.innerHTML = `
-        <div class="ai-avatar">🤖</div>
+        <div class="ai-avatar"><i class="fa-solid fa-robot"></i></div>
         <div class="message-bubble">
             <span class="typing-animation">
                 <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -850,18 +854,24 @@ function addChatMessage(role, content) {
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\n/g, '<br>')
         .replace(/• /g, '<br>• ')
-        .replace(/📈|📊|⚠️|✅|❌|💊|🩺/g, '<span class="emoji">$&</span>');
+        .replace(/📈/g, '<i class="fa-solid fa-chart-line"></i>')
+        .replace(/📊/g, '<i class="fa-solid fa-chart-simple"></i>')
+        .replace(/⚠️/g, '<i class="fa-solid fa-triangle-exclamation"></i>')
+        .replace(/✅/g, '<i class="fa-solid fa-circle-check"></i>')
+        .replace(/❌/g, '<i class="fa-solid fa-circle-xmark"></i>')
+        .replace(/💊/g, '<i class="fa-solid fa-capsules"></i>')
+        .replace(/🩺/g, '<i class="fa-solid fa-stethoscope"></i>');
     
     if (role === 'doctor') {
         msgDiv.innerHTML = `
             <div class="message-bubble doctor-bubble">
                 <div class="message-content">${formattedContent}</div>
             </div>
-            <div class="doctor-avatar">👨‍⚕️</div>
+            <div class="doctor-avatar"><i class="fa-solid fa-user-doctor"></i></div>
         `;
     } else {
         msgDiv.innerHTML = `
-            <div class="ai-avatar">🤖</div>
+            <div class="ai-avatar"><i class="fa-solid fa-robot"></i></div>
             <div class="message-bubble ai-bubble">
                 <div class="message-content">${formattedContent}</div>
             </div>
@@ -894,7 +904,7 @@ function escapeHtml(text) {
 function showError(message) {
     document.getElementById('analysisContent').innerHTML = `
         <div class="empty-state">
-            <div class="empty-state-icon">⚠️</div>
+            <div class="empty-state-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
             <h3>Analysis Error</h3>
             <p>${message}</p>
         </div>

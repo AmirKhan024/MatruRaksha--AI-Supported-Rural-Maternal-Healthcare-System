@@ -199,7 +199,7 @@ def prepare_assessment_for_ai(assessment_data: Dict, mother_data: Dict, historic
         historical_assessments: Previous assessments for this mother
     
     Returns:
-        Dictionary matching MatruRakshaState schema
+        Dictionary matching ArogyaMaaState schema
     """
     pregnancy = mother_data.get('current_pregnancy', {})
     

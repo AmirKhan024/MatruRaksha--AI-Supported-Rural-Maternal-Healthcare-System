@@ -4,16 +4,16 @@
 
 {% block content %}
 <div class="page-actions">
-    <button class="btn btn-primary" onclick="loadNotifications()">🔄 Refresh</button>
-    <button class="btn btn-secondary" onclick="markAllRead()">✓ Mark All as Read</button>
+    <button class="btn btn-sakura" onclick="loadNotifications()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+    <button class="btn btn-secondary" onclick="markAllRead()"><i class="fa-solid fa-check-double"></i> Mark All as Read</button>
 </div>
 
 <!-- Filter Tabs -->
 <div class="filter-tabs">
     <button class="tab-btn active" onclick="filterNotifications('all')">All Notifications</button>
-    <button class="tab-btn" onclick="filterNotifications('doctor')">👨‍⚕️ From Doctors</button>
-    <button class="tab-btn" onclick="filterNotifications('system')">🔔 System Alerts</button>
-    <button class="tab-btn" onclick="filterNotifications('unread')">📬 Unread Only</button>
+    <button class="tab-btn" onclick="filterNotifications('doctor')"><i class="fa-solid fa-user-doctor"></i> From Doctors</button>
+    <button class="tab-btn" onclick="filterNotifications('system')"><i class="fa-solid fa-circle-exclamation"></i> System Alerts</button>
+    <button class="tab-btn" onclick="filterNotifications('unread')"><i class="fa-solid fa-envelope"></i> Unread Only</button>
 </div>
 
 <!-- Notifications Container -->
@@ -51,12 +51,12 @@
 }
 
 .tab-btn:hover {
-    color: #2196F3;
+    color: var(--sakura-pink);
 }
 
 .tab-btn.active {
-    color: #2196F3;
-    border-bottom-color: #2196F3;
+    color: var(--sakura-pink);
+    border-bottom-color: var(--sakura-pink);
 }
 
 .notifications-container {
@@ -71,7 +71,7 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-    border-left: 4px solid #2196F3;
+    border-left: 4px solid var(--fuji-500);
     position: relative;
 }
 
@@ -81,8 +81,8 @@
 }
 
 .notification-card.unread {
-    background: #e3f2fd;
-    border-left-color: #ff9800;
+    background: var(--sakura-50);
+    border-left-color: var(--sakura-pink);
 }
 
 .notification-card.doctor-review {
@@ -97,7 +97,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background: #ff9800;
+    background: var(--sakura-pink);
     color: white;
     padding: 4px 12px;
     border-radius: 12px;
@@ -118,8 +118,8 @@
     border-radius: 12px;
     font-size: 12px;
     font-weight: bold;
-    background: #e3f2fd;
-    color: #1976d2;
+    background: var(--fuji-50);
+    color: var(--fuji-700);
 }
 
 .notification-type.doctor {
@@ -131,24 +131,12 @@
     background: #ffebee;
     color: #c62828;
 }
-
-.notification-time {
-    font-size: 12px;
-    color: #666;
-}
-
-.notification-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-    margin: 10px 0;
-}
-
 .notification-preview {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 14px;
     line-height: 1.5;
     margin: 10px 0;
+    white-space: pre-wrap;
 }
 
 .notification-meta {
@@ -232,7 +220,7 @@
     display: inline-block;
     margin: 15px 0;
     padding: 10px 20px;
-    background: #2196F3;
+    background: var(--fuji-500);
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -254,7 +242,7 @@
 }
 
 .btn-primary {
-    background: #2196F3;
+    background: var(--fuji-500);
     color: white;
 }
 
@@ -312,7 +300,7 @@ async function loadNotifications() {
         console.error('[NOTIFICATIONS] Error:', error);
         container.innerHTML = `
             <div class="empty-state">
-                <div class="empty-state-icon">⚠️</div>
+                <div class="empty-state-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
                 <h3>Failed to load notifications</h3>
                 <p>${error.message}</p>
             </div>
@@ -349,7 +337,7 @@ function renderNotifications() {
     if (filtered.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
-                <div class="empty-state-icon">📭</div>
+                <div class="empty-state-icon"><i class="fa-solid fa-inbox"></i></div>
                 <h3>No notifications</h3>
                 <p>${currentFilter === 'unread' ? 'All caught up! No unread notifications.' : 'No notifications to display.'}</p>
             </div>
@@ -361,7 +349,9 @@ function renderNotifications() {
         const isUnread = !notification.read;
         const cardClass = `notification-card ${isUnread ? 'unread' : ''} ${notification.type === 'doctor_review' ? 'doctor-review' : ''}`;
         
-        const typeLabel = notification.type === 'doctor_review' ? '👨‍⚕️ Doctor Review' : '🔔 System Alert';
+        const typeLabel = notification.type === 'doctor_review' 
+            ? '<i class="fa-solid fa-user-doctor"></i> Doctor Review' 
+            : '<i class="fa-solid fa-circle-exclamation"></i> System Alert';
         const typeClass = notification.type === 'doctor_review' ? 'doctor' : 'system';
         
         const timeAgo = getTimeAgo(notification.timestamp);
@@ -379,9 +369,9 @@ function renderNotifications() {
                 <div class="notification-preview">${notification.preview}</div>
                 
                 <div class="notification-meta">
-                    <span>👤 ${notification.mother_name}</span>
-                    ${notification.doctor_name ? `<span>👨‍⚕️ Dr. ${notification.doctor_name}</span>` : ''}
-                    ${notification.document_type ? `<span>📄 ${notification.document_type}</span>` : ''}
+                    <span><i class="fa-solid fa-user"></i> ${notification.mother_name}</span>
+                    ${notification.doctor_name ? `<span><i class="fa-solid fa-user-doctor"></i> Dr. ${notification.doctor_name}</span>` : ''}
+                    ${notification.document_type ? `<span><i class="fa-solid fa-file-medical"></i> ${notification.document_type}</span>` : ''}
                 </div>
             </div>
         `;
@@ -409,10 +399,10 @@ async function viewNotification(notificationId) {
     let detailsHTML = `
         <div class="message-header">
             <h3>${notification.title}</h3>
-            <p style="color: #666; margin: 5px 0;">
+            <p style="color: var(--text-muted); margin: 5px 0;">
                 <strong>${notification.mother_name}</strong> • ${new Date(notification.timestamp).toLocaleString()}
             </p>
-            ${notification.doctor_name ? `<p style="color: #2e7d32;"><strong>From:</strong> Dr. ${notification.doctor_name}</p>` : ''}
+            ${notification.doctor_name ? `<p style="color: var(--sakura-deep);"><strong>From:</strong> Dr. ${notification.doctor_name}</p>` : ''}
         </div>
         
         <div class="message-body">${notification.message}</div>
@@ -423,7 +413,7 @@ async function viewNotification(notificationId) {
         detailsHTML += `
             <a href="/asha/dashboard/documents?mother_id=${notification.mother_id}&asha_id=${ASHA_ID}" 
                class="document-link" target="_blank">
-                📄 View Document & AI Analysis
+                <i class="fa-solid fa-file-waveform"></i> View Document & AI Analysis
             </a>
         `;
     }
@@ -431,8 +421,8 @@ async function viewNotification(notificationId) {
     // Add action buttons
     detailsHTML += `
         <div style="margin-top: 30px; display: flex; gap: 10px;">
-            <button class="btn btn-success" onclick="replyToDoctor('${notification._id}')">
-                💬 Reply to Doctor
+            <button class="btn btn-sakura" onclick="replyToDoctor('${notification._id}')">
+                <i class="fa-solid fa-reply"></i> Reply to Doctor
             </button>
             <button class="btn btn-secondary" onclick="closeMessageModal()">
                 Close

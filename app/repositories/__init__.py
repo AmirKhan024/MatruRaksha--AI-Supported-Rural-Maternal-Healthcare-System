@@ -1,5 +1,5 @@
 """
-Repository Layer for MatruRaksha
+Repository Layer for ArogyaMaa
 
 Clean data access layer for all MongoDB collections.
 Import repositories from this package for use in blueprints and services.
@@ -18,6 +18,7 @@ from . import assessments_repo
 from . import consultations_repo
 from . import documents_repo
 from . import messages_repo
+from . import registration_repo
 
 __all__ = [
     'mothers_repo',
@@ -26,5 +27,6 @@ __all__ = [
     'assessments_repo',
     'consultations_repo',
     'documents_repo',
-    'messages_repo'
+    'messages_repo',
+    'registration_repo'
 ]

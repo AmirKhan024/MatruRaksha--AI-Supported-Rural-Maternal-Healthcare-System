@@ -5,8 +5,8 @@
 
 {% block content %}
 <div class="page-actions">
-    <button onclick="history.back()" class="btn btn-secondary">← Back</button>
-    <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+    <button onclick="history.back()" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</button>
+    <button class="btn btn-sakura" onclick="window.print()"><i class="fa-solid fa-print"></i> Print</button>
 </div>
 
 <!-- Consultation Details Container -->
@@ -81,8 +81,8 @@ function renderConsultation() {
     
     container.innerHTML = `
         <!-- Header Card -->
-        <div class="table-card" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-            <h3 style="margin: 0; color: white;">Consultation Details</h3>
+        <div class="table-card" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, var(--fuji-700) 0%, var(--fuji-500) 100%); color: white;">
+            <h3 style="margin: 0; color: white;"><i class="fa-solid fa-file-invoice-medical"></i> Consultation Details</h3>
             <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">
                 ${new Date(consultation.timestamp).toLocaleString()}
             </p>
@@ -90,8 +90,8 @@ function renderConsultation() {
         
         <!-- AI Override Alert (if applicable) -->
         ${aiOverridden ? `
-            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px;">
-                <strong>⚠️ AI Risk Assessment Overridden</strong>
+            <div style="background: #fff3cd; border-left: 4px solid var(--warning-color); padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px;">
+                <strong><i class="fa-solid fa-triangle-exclamation"></i> AI Risk Assessment Overridden</strong>
                 <p style="margin: 0.5rem 0 0 0;">
                     <strong>Reason:</strong> ${consultation.override_reason || 'Clinical judgment'}
                 </p>
@@ -134,13 +134,13 @@ function renderConsultation() {
                         (AI Advisory - Doctor Reviewed)
                     </p>
                 </div>
-                <div style="padding: 1rem; background: #e8f5e9; border-radius: 4px; border: 2px solid #4caf50;">
-                    <h5 style="margin: 0 0 0.5rem 0; color: #2e7d32;">Final Doctor Assessment</h5>
+                <div style="padding: 1rem; background: rgba(39, 174, 96, 0.05); border-radius: 8px; border: 2px solid var(--success-color);">
+                    <h5 style="margin: 0 0 0.5rem 0; color: var(--success-color);"><i class="fa-solid fa-user-doctor"></i> Final Doctor Assessment</h5>
                     <p style="margin: 0;">
                         <span class="badge badge-${doctorRiskClass}" style="font-size: 1.1rem;">${doctorRisk}</span>
                     </p>
-                    <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #2e7d32; font-weight: 600;">
-                        ✓ Doctor decision is final
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--success-color); font-weight: 600;">
+                        <i class="fa-solid fa-check-double"></i> Doctor decision is final
                     </p>
                 </div>
             </div>
@@ -258,12 +258,12 @@ function renderConsultation() {
         </div>
         
         <!-- Footer Notice -->
-        <div style="margin-top: 2rem; padding: 1rem; background: #e8f5e9; border-radius: 4px; text-align: center; border: 1px solid #4caf50;">
-            <p style="margin: 0; color: #2e7d32; font-weight: 500;">
-                📋 This consultation record is finalized and cannot be edited.
+        <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(39, 174, 96, 0.05); border-radius: 12px; text-align: center; border: 1px solid var(--success-color);">
+            <p style="margin: 0; color: var(--success-color); font-weight: 500;">
+                <i class="fa-solid fa-clipboard-check"></i> This consultation record is finalized and cannot be edited.
             </p>
-            <p style="margin: 0.5rem 0 0 0; color: #6c757d; font-size: 0.9rem;">
-                AI is assistive. Final decisions are made by healthcare professionals.
+            <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary); font-size: 0.9rem;">
+                <i class="fa-solid fa-circle-info"></i> AI is assistive. Final decisions are made by healthcare professionals.
             </p>
         </div>
     `;

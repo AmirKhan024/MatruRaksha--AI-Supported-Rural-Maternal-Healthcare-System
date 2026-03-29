@@ -4,7 +4,58 @@
 
 {% block content %}
 <div class="page-actions">
-    <button class="btn btn-primary" onclick="loadDoctorsData()">Refresh Data</button>
+    <button class="btn btn-sakura" onclick="openAddDoctorModal()"><i class="fa-solid fa-plus"></i> Add Doctor</button>
+    <button class="btn btn-secondary" onclick="loadDoctorsData()"><i class="fa-solid fa-arrows-rotate"></i> Refresh Data</button>
+</div>
+
+<!-- Add Doctor Modal -->
+<div id="addDoctorModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 550px;">
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-user-doctor"></i> Register New Doctor</h3>
+            <button class="modal-close" onclick="closeAddDoctorModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="addDoctorForm" onsubmit="submitDoctor(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" class="form-control" required placeholder="Dr. Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Specialization</label>
+                        <input type="text" name="specialization" class="form-control" required placeholder="e.g. Obstetrics">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" class="form-control" required placeholder="10-digit mobile">
+                    </div>
+                    <div class="form-group">
+                        <label>Hospital/Clinic</label>
+                        <input type="text" name="hospital" class="form-control" required placeholder="Hospital Name">
+                    </div>
+                    
+                    <div style="grid-column: span 2; margin-top: 0.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                        <h4 style="margin-bottom: 0.75rem; color: var(--sakura-600); font-size: 0.9rem;">Portal Access Credentials</h4>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" class="form-control" required placeholder="Login ID">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" required placeholder="Min 6 characters">
+                    </div>
+                </div>
+                
+                <div class="modal-footer" style="padding: 1.5rem 0 0 0; border: none;">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddDoctorModal()">Cancel</button>
+                    <button type="submit" class="btn btn-sakura">Register Doctor</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!-- Doctors Table -->
@@ -90,9 +141,53 @@ function renderDoctorsTable() {
     }).join('');
 }
 
+// Modal control
+function openAddDoctorModal() {
+    document.getElementById('addDoctorModal').style.display = 'flex';
+}
+
+function closeAddDoctorModal() {
+    document.getElementById('addDoctorModal').style.display = 'none';
+}
+
+// Submit Doctor registration
+async function submitDoctor(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    
+    try {
+        const response = await fetch('/admin/doctors', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        if (response.ok) {
+            alert('Doctor registered successfully!');
+            closeAddDoctorModal();
+            form.reset();
+            loadDoctorsData();
+        } else {
+            alert(result.error || 'Failed to register doctor');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    }
+}
+
 // Load data on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadDoctorsData();
+    
+    // Check for "action=add" in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('action') === 'add') {
+        openAddDoctorModal();
+    }
 });
 </script>
 {% endblock %}

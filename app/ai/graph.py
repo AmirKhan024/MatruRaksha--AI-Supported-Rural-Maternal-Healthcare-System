@@ -1,14 +1,14 @@
 """
 LangGraph Workflow Definition
 
-Builds the multi-agent orchestration graph for MatruRaksha.
+Builds the multi-agent orchestration graph for ArogyaMaa.
 """
 
 import os
 from langgraph.graph import StateGraph, END
 from langsmith import Client
 
-from .state import MatruRakshaState
+from .state import ArogyaMaaState
 from .agents import (
     orchestrator_node,
     risk_stratification_node,
@@ -21,30 +21,30 @@ from .agents import (
 )
 
 
-def should_run_symptom_reasoning(state: MatruRakshaState) -> str:
+def should_run_symptom_reasoning(state: ArogyaMaaState) -> str:
     """Conditional edge: Run symptom reasoning if symptoms present"""
     if "symptom_reasoning" in state.get("agents_invoked", []):
         return "symptom_reasoning"
     return "skip_to_trend"
 
 
-def should_run_trend_analysis(state: MatruRakshaState) -> str:
+def should_run_trend_analysis(state: ArogyaMaaState) -> str:
     """Conditional edge: Run trend analysis if historical data exists"""
     if "trend_analysis" in state.get("agents_invoked", []):
         return "trend_analysis"
     return "skip_to_document"
 
 
-def should_run_document_analysis(state: MatruRakshaState) -> str:
+def should_run_document_analysis(state: ArogyaMaaState) -> str:
     """Conditional edge: Run document analysis if documents uploaded"""
     if "document_analysis" in state.get("agents_invoked", []):
         return "document_analysis"
     return "nutrition_lifestyle"
 
 
-def create_matruraksha_graph():
+def create_ArogyaMaa_graph():
     """
-    Create the LangGraph workflow for MatruRaksha AI orchestration.
+    Create the LangGraph workflow for ArogyaMaa AI orchestration.
     
     Graph Structure:
     
@@ -63,11 +63,11 @@ def create_matruraksha_graph():
     # Enable LangSmith tracing
     if os.getenv("LANGCHAIN_TRACING_V2") == "true":
         os.environ["LANGCHAIN_TRACING_V2"] = "true"
-        os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "matruraksha")
+        os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGSMITH_PROJECT", "ArogyaMaa")
         print("[LANGGRAPH] LangSmith tracing enabled")
     
     # Create the graph
-    workflow = StateGraph(MatruRakshaState)
+    workflow = StateGraph(ArogyaMaaState)
     
     # Add all nodes
     workflow.add_node("orchestrator", orchestrator_node)

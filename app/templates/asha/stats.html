@@ -4,13 +4,13 @@
 
 {% block content %}
 <div class="page-actions">
-    <button class="btn btn-primary" onclick="loadStatsData()">Refresh Stats</button>
+    <button class="btn btn-sakura" onclick="loadStatsData()"><i class="fa-solid fa-arrows-rotate"></i> Refresh Stats</button>
 </div>
 
 <!-- Summary Cards -->
 <div class="kpi-grid">
     <div class="kpi-card">
-        <div class="kpi-icon">👩</div>
+        <div class="kpi-icon"><i class="fa-solid fa-hospital-user"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Total Mothers Assigned</div>
             <div class="kpi-value" id="stat-total-mothers">--</div>
@@ -18,7 +18,7 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">📋</div>
+        <div class="kpi-icon"><i class="fa-solid fa-clipboard-list"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Total Assessments</div>
             <div class="kpi-value" id="stat-total-assessments">--</div>
@@ -26,7 +26,7 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">📅</div>
+        <div class="kpi-icon"><i class="fa-solid fa-calendar-week"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Assessments This Week</div>
             <div class="kpi-value" id="stat-week-assessments">--</div>
@@ -34,7 +34,7 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">📈</div>
+        <div class="kpi-icon"><i class="fa-solid fa-chart-line"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Avg Assessments/Mother</div>
             <div class="kpi-value" id="stat-avg-assessments">--</div>

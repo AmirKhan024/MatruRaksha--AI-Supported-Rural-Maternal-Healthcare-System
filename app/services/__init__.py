@@ -1,5 +1,5 @@
 """
-Services Layer for MatruRaksha
+Services Layer for ArogyaMaa
 
 Business logic and external service integrations.
 Separates business logic from routes and data access.

@@ -1,7 +1,7 @@
 """
 Doctor AI Assistant - Clinical Decision Support
 
-Non-RAG AI assistant for doctors working within the MatruRaksha platform.
+Non-RAG AI assistant for doctors working within the ArogyaMaa platform.
 Provides AI explainability and case context analysis.
 
 IMPORTANT: This assistant supports, not replaces, clinical judgment.

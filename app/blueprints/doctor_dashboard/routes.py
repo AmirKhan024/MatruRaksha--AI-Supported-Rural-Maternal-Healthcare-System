@@ -4,9 +4,10 @@ Doctor Dashboard Routes
 Web interface for doctors to review assessments and consultations.
 """
 
-from flask import render_template, request
+from flask import render_template, request, session
 from . import doctor_dashboard_bp
 from app.repositories import doctors_repo
+from app.blueprints.shared_logic import get_clinical_portfolio_context
 
 
 @doctor_dashboard_bp.route('/')
@@ -17,8 +18,8 @@ def dashboard():
     Query params:
     - doctor_id: Doctor ID (required)
     """
-    doctor_id = request.args.get('doctor_id', '')
-    doctor_name = _get_doctor_name(doctor_id)
+    doctor_id = request.args.get('doctor_id') or session.get('doctor_id', '')
+    doctor_name = session.get('display_name') or _get_doctor_name(doctor_id)
     return render_template('doctor/dashboard.html', doctor_id=doctor_id, doctor_name=doctor_name)
 
 
@@ -30,8 +31,8 @@ def mothers():
     Query params:
     - doctor_id: Doctor ID (required)
     """
-    doctor_id = request.args.get('doctor_id', '')
-    doctor_name = _get_doctor_name(doctor_id)
+    doctor_id = request.args.get('doctor_id') or session.get('doctor_id', '')
+    doctor_name = session.get('display_name') or _get_doctor_name(doctor_id)
     return render_template('doctor/mothers.html', doctor_id=doctor_id, doctor_name=doctor_name)
 
 
@@ -44,9 +45,9 @@ def assessments():
     - doctor_id: Doctor ID (required)
     - mother_id: Mother ID (required)
     """
-    doctor_id = request.args.get('doctor_id', '')
+    doctor_id = request.args.get('doctor_id') or session.get('doctor_id', '')
     mother_id = request.args.get('mother_id', '')
-    doctor_name = _get_doctor_name(doctor_id)
+    doctor_name = session.get('display_name') or _get_doctor_name(doctor_id)
     return render_template('doctor/assessments.html', doctor_id=doctor_id, mother_id=mother_id, doctor_name=doctor_name)
 
 
@@ -88,8 +89,8 @@ def message():
     Query params:
     - doctor_id: Doctor ID (required)
     """
-    doctor_id = request.args.get('doctor_id', '')
-    doctor_name = _get_doctor_name(doctor_id)
+    doctor_id = request.args.get('doctor_id') or session.get('doctor_id', '')
+    doctor_name = session.get('display_name') or _get_doctor_name(doctor_id)
     return render_template('doctor/message.html', doctor_id=doctor_id, doctor_name=doctor_name)
 
 
@@ -118,8 +119,8 @@ def ai_assistant():
     """
     from app.repositories import mothers_repo, assessments_repo
     
-    doctor_id = request.args.get('doctor_id', '')
-    doctor_name = _get_doctor_name(doctor_id)
+    doctor_id = request.args.get('doctor_id') or session.get('doctor_id', '')
+    doctor_name = session.get('display_name') or _get_doctor_name(doctor_id)
     
     # Get assigned mothers for this doctor with correct risk levels
     mothers = []
@@ -165,6 +166,25 @@ def ai_assistant():
         print(f"Error fetching mothers: {e}")
     
     return render_template('doctor/ai_assistant.html', doctor_id=doctor_id, doctor_name=doctor_name, mothers=mothers)
+
+
+@doctor_dashboard_bp.route('/patient/<mother_id>')
+def patient_profile(mother_id):
+    """View comprehensive clinical portfolio for a mother."""
+    doctor_id = request.args.get('doctor_id') or session.get('doctor_id', '')
+    doctor_name = session.get('display_name') or _get_doctor_name(doctor_id)
+    
+    context = get_clinical_portfolio_context(mother_id)
+    if not context:
+        return "Patient Not Found", 404
+        
+    # Add role-specific info
+    context['base_template'] = 'doctor/base.html'
+    context['role_name'] = 'Doctor'
+    context['doctor_id'] = doctor_id
+    context['doctor_name'] = doctor_name
+    
+    return render_template('shared/patient_profile.html', **context)
 
 
 def _get_doctor_name(doctor_id):

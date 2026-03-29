@@ -3,10 +3,23 @@
 {% block page_title %}System Overview{% endblock %}
 
 {% block content %}
+<!-- Quick Actions -->
+<div style="margin-bottom: 2rem;">
+    <h3 style="margin-bottom: 1rem; color: var(--text-main); font-size: 1.2rem;">Quick Administrative Actions</h3>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button class="btn btn-sakura" onclick="window.location.href='/admin/dashboard/doctors?action=add'">
+            <i class="fa-solid fa-user-doctor"></i> Register New Doctor
+        </button>
+        <button class="btn btn-sakura" onclick="window.location.href='/admin/dashboard/asha?action=add'">
+            <i class="fa-solid fa-user-nurse"></i> Register ASHA Worker
+        </button>
+    </div>
+</div>
+
 <!-- KPI Cards -->
 <div class="kpi-grid">
     <div class="kpi-card">
-        <div class="kpi-icon">👩</div>
+        <div class="kpi-icon"><i class="fa-solid fa-person-breastfeeding"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Total Mothers</div>
             <div class="kpi-value" id="total-mothers">--</div>
@@ -14,7 +27,7 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">👩‍⚕️</div>
+        <div class="kpi-icon"><i class="fa-solid fa-user-nurse"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">ASHA Workers</div>
             <div class="kpi-value" id="total-asha">--</div>
@@ -22,7 +35,7 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">👨‍⚕️</div>
+        <div class="kpi-icon"><i class="fa-solid fa-user-doctor"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Doctors</div>
             <div class="kpi-value" id="total-doctors">--</div>
@@ -30,7 +43,7 @@
     </div>
     
     <div class="kpi-card">
-        <div class="kpi-icon">📋</div>
+        <div class="kpi-icon"><i class="fa-solid fa-clipboard-check"></i></div>
         <div class="kpi-content">
             <div class="kpi-label">Total Assessments</div>
             <div class="kpi-value" id="total-assessments">--</div>

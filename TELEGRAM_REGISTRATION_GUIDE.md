@@ -1,7 +1,7 @@
 # Telegram Bot - Mother Self-Registration Guide
 
 ## 🎯 Overview
-Mothers can now self-register through the MatruRaksha Telegram bot! This makes onboarding easier and allows mothers to directly communicate with their healthcare team.
+Mothers can now self-register through the ArogyaMaa Telegram bot! This makes onboarding easier and allows mothers to directly communicate with their healthcare team.
 
 ---
 
@@ -9,7 +9,7 @@ Mothers can now self-register through the MatruRaksha Telegram bot! This makes o
 
 ### 1. Install Dependencies
 ```bash
-cd MatruRaksha
+cd ArogyaMaa
 .\env\Scripts\activate.ps1  # Windows
 # source env/bin/activate  # Linux/Mac
 
@@ -22,7 +22,7 @@ Add to `.env` file:
 ```env
 TELEGRAM_BOT_TOKEN=your_bot_token_here
 MONGO_URI=mongodb://localhost:27017
-DB_NAME=matruraksha
+DB_NAME=ArogyaMaa
 ```
 
 ### 3. Start the Bot
@@ -51,7 +51,7 @@ Bot is running! Press Ctrl+C to stop.
 
 2. **Welcome Message**
    ```
-   🌸 Welcome to MatruRaksha! 🌸
+   🌸 Welcome to ArogyaMaa! 🌸
    
    I'm here to help you during your pregnancy journey.
    
@@ -93,7 +93,7 @@ Bot is running! Press Ctrl+C to stop.
    ```
    🎉 Registration Successful! 🎉
    
-   Welcome to MatruRaksha, Priya Sharma!
+   Welcome to ArogyaMaa, Priya Sharma!
    
    ✅ Your profile has been created.
    ⏳ An admin will assign a healthcare team to you soon.

@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="page-actions">
-    <a href="{{ url_for('asha_dashboard.mothers', asha_id=asha_id) }}" class="btn btn-secondary">← Back to Mothers</a>
+    <a href="{{ url_for('asha_dashboard.mothers', asha_id=asha_id) }}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back to Mothers</a>
 </div>
 
 <!-- Assessment Form -->
@@ -103,7 +103,7 @@
         
         <!-- Submit Button -->
         <div style="margin-top: 2rem;">
-            <button type="submit" class="btn btn-primary" id="submit-btn">
+            <button type="submit" class="btn btn-sakura" id="submit-btn">
                 Submit Assessment
             </button>
             <button type="button" class="btn btn-secondary" onclick="resetForm()">
@@ -117,7 +117,7 @@
 <div id="result-modal" class="modal">
     <div class="modal-content" style="max-width: 600px;">
         <div class="modal-header">
-            <h3>Assessment Result</h3>
+            <h3><i class="fa-solid fa-clipboard-check"></i> Assessment Result</h3>
             <button class="modal-close" onclick="closeResultModal()">&times;</button>
         </div>
         <div class="modal-body">
@@ -125,7 +125,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeResultModal()">Close</button>
-            <a href="{{ url_for('asha_dashboard.mothers', asha_id=asha_id) }}" class="btn btn-primary">View Mothers</a>
+            <a href="{{ url_for('asha_dashboard.mothers', asha_id=asha_id) }}" class="btn btn-sakura">View Mothers</a>
         </div>
     </div>
 </div>
@@ -249,7 +249,7 @@ document.getElementById('assessment-form').addEventListener('submit', async (e) 
     // Submit assessment
     const submitBtn = document.getElementById('submit-btn');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
+    submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Submitting...';
     
     try {
         const response = await fetch('/asha/assessment', {
@@ -309,8 +309,8 @@ function showAssessmentResult(result) {
         ` : ''}
         
         ${result.alerts_sent ? `
-            <div style="padding: 1rem; background: #d1fae5; border-radius: 0.5rem; margin-top: 1rem;">
-                <strong>✓ Alerts sent successfully</strong>
+            <div style="padding: 1rem; background: rgba(39, 174, 96, 0.1); border-radius: 0.5rem; margin-top: 1rem; color: var(--success-color); border: 1px solid var(--success-color);">
+                <strong><i class="fa-solid fa-circle-check"></i> Alerts sent successfully</strong>
             </div>
         ` : ''}
     `;

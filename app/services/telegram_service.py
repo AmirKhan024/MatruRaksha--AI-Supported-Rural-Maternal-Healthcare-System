@@ -202,17 +202,108 @@ def delete_webhook():
 def get_bot_info():
     """
     Get information about the bot.
-    
+
     Returns:
         dict: Bot information or None if failed
     """
     bot_token = current_app.config['TELEGRAM_BOT_TOKEN']
     url = f"https://api.telegram.org/bot{bot_token}/getMe"
-    
+
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
         return response.json()
     except Exception as e:
         current_app.logger.error(f"Failed to get bot info: {e}")
+        return None
+
+
+def send_voice(chat_id, voice_file_path):
+    """
+    Send a voice message to a Telegram user.
+
+    Args:
+        chat_id: Telegram chat ID
+        voice_file_path: Local path to the OGG voice file
+
+    Returns:
+        dict: Telegram API response or None if failed
+    """
+    bot_token = current_app.config['TELEGRAM_BOT_TOKEN']
+    url = f"https://api.telegram.org/bot{bot_token}/sendVoice"
+
+    try:
+        with open(voice_file_path, 'rb') as voice_file:
+            response = requests.post(
+                url,
+                data={'chat_id': chat_id},
+                files={'voice': voice_file},
+                timeout=30
+            )
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        current_app.logger.error(f"Failed to send voice to {chat_id}: {e}")
+        return None
+
+
+def answer_callback_query(callback_query_id, text=None):
+    """
+    Answer a callback query to remove the loading indicator.
+
+    Args:
+        callback_query_id: ID of the callback query
+        text: Optional notification text to show
+
+    Returns:
+        dict: Telegram API response or None if failed
+    """
+    bot_token = current_app.config['TELEGRAM_BOT_TOKEN']
+    url = f"https://api.telegram.org/bot{bot_token}/answerCallbackQuery"
+
+    payload = {'callback_query_id': callback_query_id}
+    if text:
+        payload['text'] = text
+
+    try:
+        response = requests.post(url, json=payload, timeout=10)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        current_app.logger.error(f"Failed to answer callback query: {e}")
+        return None
+
+
+def send_message_with_keyboard(chat_id, text, reply_markup, parse_mode=None):
+    """
+    Send a message with any type of keyboard markup (inline or reply).
+
+    Args:
+        chat_id: Telegram chat ID
+        text: Message text
+        reply_markup: Keyboard markup dict (InlineKeyboardMarkup, ReplyKeyboardMarkup, or ReplyKeyboardRemove)
+        parse_mode: Optional parse mode ('HTML', 'Markdown')
+
+    Returns:
+        dict: Telegram API response or None if failed
+    """
+    bot_token = current_app.config['TELEGRAM_BOT_TOKEN']
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+
+    payload = {
+        'chat_id': chat_id,
+        'text': text,
+    }
+
+    if parse_mode:
+        payload['parse_mode'] = parse_mode
+    if reply_markup:
+        payload['reply_markup'] = reply_markup
+
+    try:
+        response = requests.post(url, json=payload, timeout=10)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        current_app.logger.error(f"Failed to send message with keyboard: {e}")
         return None

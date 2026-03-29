@@ -150,13 +150,13 @@ def _get_template_message(recipient, risk_category, mother_data, worker_data=Non
     
     if recipient == "mother":
         templates = {
-            "LOW": f"नमस्ते {mother_name} जी,\n\nआपकी स्वास्थ्य जांच पूरी हो गई है। सब कुछ ठीक है। अगली जांच के लिए समय पर आएं।\n\n- MatruRaksha",
+            "LOW": f"नमस्ते {mother_name} जी,\n\nआपकी स्वास्थ्य जांच पूरी हो गई है। सब कुछ ठीक है। अगली जांच के लिए समय पर आएं।\n\n- ArogyaMaa",
             
-            "MODERATE": f"नमस्ते {mother_name} जी,\n\nआपकी जांच में कुछ बातों पर ध्यान देने की जरूरत है। कृपया 3-5 दिन में डॉक्टर से मिलें। आशा बहन आपकी मदद करेंगी।\n\n- MatruRaksha",
+            "MODERATE": f"नमस्ते {mother_name} जी,\n\nआपकी जांच में कुछ बातों पर ध्यान देने की जरूरत है। कृपया 3-5 दिन में डॉक्टर से मिलें। आशा बहन आपकी मदद करेंगी।\n\n- ArogyaMaa",
             
-            "HIGH": f"⚠️ {mother_name} जी,\n\nआपकी स्वास्थ्य जांच में कुछ गंभीर बातें मिली हैं। कृपया 24 घंटे के अंदर डॉक्टर से संपर्क करें। आशा बहन जल्द ही आपसे मिलेंगी।\n\n- MatruRaksha",
+            "HIGH": f"⚠️ {mother_name} जी,\n\nआपकी स्वास्थ्य जांच में कुछ गंभीर बातें मिली हैं। कृपया 24 घंटे के अंदर डॉक्टर से संपर्क करें। आशा बहन जल्द ही आपसे मिलेंगी।\n\n- ArogyaMaa",
             
-            "CRITICAL": f"🚨 {mother_name} जी - तत्काल ध्यान दें\n\nआपकी स्वास्थ्य स्थिति गंभीर है। कृपया तुरंत अस्पताल जाएं या डॉक्टर को बुलाएं। आशा बहन और डॉक्टर को सूचित कर दिया गया है।\n\n- MatruRaksha"
+            "CRITICAL": f"🚨 {mother_name} जी - तत्काल ध्यान दें\n\nआपकी स्वास्थ्य स्थिति गंभीर है। कृपया तुरंत अस्पताल जाएं या डॉक्टर को बुलाएं। आशा बहन और डॉक्टर को सूचित कर दिया गया है।\n\n- ArogyaMaa"
         }
         return templates.get(risk_category, templates["MODERATE"])
     
@@ -164,19 +164,19 @@ def _get_template_message(recipient, risk_category, mother_data, worker_data=Non
         worker_name = worker_data.get('name', 'ASHA') if worker_data else 'ASHA'
         
         templates = {
-            "MODERATE": f"ALERT: {mother_name}\n\nRisk: MODERATE\nAction: Schedule doctor visit within 3-5 days\nMonitor for symptom changes\n\n- MatruRaksha AI",
+            "MODERATE": f"ALERT: {mother_name}\n\nRisk: MODERATE\nAction: Schedule doctor visit within 3-5 days\nMonitor for symptom changes\n\n- ArogyaMaa AI",
             
-            "HIGH": f"⚠️ URGENT: {mother_name}\n\nRisk: HIGH\nAction Required: Doctor visit within 24 hours\nPlease follow up immediately\n\n- MatruRaksha AI",
+            "HIGH": f"⚠️ URGENT: {mother_name}\n\nRisk: HIGH\nAction Required: Doctor visit within 24 hours\nPlease follow up immediately\n\n- ArogyaMaa AI",
             
-            "CRITICAL": f"🚨 CRITICAL: {mother_name}\n\nRisk: CRITICAL\nAction: IMMEDIATE referral to hospital\nDoctor has been notified\nContact mother NOW\n\n- MatruRaksha AI"
+            "CRITICAL": f"🚨 CRITICAL: {mother_name}\n\nRisk: CRITICAL\nAction: IMMEDIATE referral to hospital\nDoctor has been notified\nContact mother NOW\n\n- ArogyaMaa AI"
         }
         return templates.get(risk_category, templates["MODERATE"])
     
     elif recipient == "doctor":
         templates = {
-            "HIGH": f"New Assessment - {mother_name}\n\nRisk: HIGH\nAI Confidence: Requires review\nAction: Review assessment within 24-48h\n\nView in dashboard: /doctor/assessments?mother_id=...\n\n- MatruRaksha AI",
+            "HIGH": f"New Assessment - {mother_name}\n\nRisk: HIGH\nAI Confidence: Requires review\nAction: Review assessment within 24-48h\n\nView in dashboard: /doctor/assessments?mother_id=...\n\n- ArogyaMaa AI",
             
-            "CRITICAL": f"🚨 URGENT - {mother_name}\n\nRisk: CRITICAL\nImmediate doctor review required\nASHA worker notified\n\nView assessment now: /doctor/assessments?mother_id=...\n\n- MatruRaksha AI"
+            "CRITICAL": f"🚨 URGENT - {mother_name}\n\nRisk: CRITICAL\nImmediate doctor review required\nASHA worker notified\n\nView assessment now: /doctor/assessments?mother_id=...\n\n- ArogyaMaa AI"
         }
         return templates.get(risk_category, templates["HIGH"])
     
@@ -211,7 +211,7 @@ def _send_to_mother(mother_data, message_text, assessment_id, risk_category):
             # Log in messages collection
             message_data = {
                 'sender_type': 'ai',
-                'sender_name': 'MatruRaksha AI',
+                'sender_name': 'ArogyaMaa AI',
                 'text': message_text,
                 'telegram_message_id': telegram_msg_id,
                 'is_alert': True,

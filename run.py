@@ -1,11 +1,15 @@
 """
-MatruRaksha Application Entry Point
+ArogyaMaa Application Entry Point
 
 This script starts the Flask development server.
 It uses the app factory pattern to create the application instance.
 """
 
 import os
+import sys
+if sys.platform == 'win32':
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 from app import create_app
 
 # Determine environment from .env or default to development
@@ -22,7 +26,7 @@ if __name__ == '__main__':
     
     print(f"""
     ╔═══════════════════════════════════════╗
-    ║   MatruRaksha Backend Server          ║
+    ║   ArogyaMaa Backend Server          ║
     ║   Environment: {env:24s} ║
     ║   Running on: http://{host}:{port}      ║
     ╚═══════════════════════════════════════╝

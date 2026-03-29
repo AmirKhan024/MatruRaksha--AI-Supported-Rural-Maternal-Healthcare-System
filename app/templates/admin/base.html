@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}MatruRaksha Admin{% endblock %}</title>
+    <title>{% block title %}ArogyaMaa Admin{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
@@ -16,26 +22,26 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>MatruRaksha</h2>
-                <p class="subtitle">Admin Panel</p>
+                <h2>🌸 ArogyaMaa</h2>
+                <p class="subtitle">Clinical Admin Panel</p>
             </div>
             
             <nav class="sidebar-nav">
                 <a href="{{ url_for('admin_dashboard.dashboard') }}" class="nav-item {% if request.endpoint == 'admin_dashboard.dashboard' %}active{% endif %}">
-                    <span class="nav-icon">📊</span>
-                    <span class="nav-text">Dashboard</span>
+                    <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span>
+                    <span class="nav-text">System Overview</span>
                 </a>
                 <a href="{{ url_for('admin_dashboard.mothers') }}" class="nav-item {% if request.endpoint == 'admin_dashboard.mothers' %}active{% endif %}">
-                    <span class="nav-icon">👩</span>
-                    <span class="nav-text">Mothers</span>
+                    <span class="nav-icon"><i class="fa-solid fa-person-breastfeeding"></i></span>
+                    <span class="nav-text">Maternal Portfolio</span>
                 </a>
                 <a href="{{ url_for('admin_dashboard.asha') }}" class="nav-item {% if request.endpoint == 'admin_dashboard.asha' %}active{% endif %}">
-                    <span class="nav-icon">👩‍⚕️</span>
-                    <span class="nav-text">ASHA Workers</span>
+                    <span class="nav-icon"><i class="fa-solid fa-user-nurse"></i></span>
+                    <span class="nav-text">ASHA Network</span>
                 </a>
                 <a href="{{ url_for('admin_dashboard.doctors') }}" class="nav-item {% if request.endpoint == 'admin_dashboard.doctors' %}active{% endif %}">
-                    <span class="nav-icon">👨‍⚕️</span>
-                    <span class="nav-text">Doctors</span>
+                    <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span>
+                    <span class="nav-text">Doctor Panel</span>
                 </a>
             </nav>
             
@@ -55,6 +61,7 @@
                         <span class="status-value status-active">Connected</span>
                     </div>
                 </div>
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout"><i class="fa-solid fa-door-open"></i> Logout</a>
             </div>
         </aside>
         
